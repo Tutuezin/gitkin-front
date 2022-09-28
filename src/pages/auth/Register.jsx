@@ -22,6 +22,15 @@ export default function Register() {
 
           <Button>Cadastrar</Button>
         </AuthInputs>
+        <BackToLogin>
+          <h1>GitKin</h1>
+          <h2>A solução perfeita para a criação do seu portifólio.</h2>
+          <h3>
+            Junte-se a essa família de devs faça seus portifólio e nos mostre a
+            direção dos seus objetivos!
+          </h3>
+          <p>Voltar para login</p> {/* //TODO colocar uma setinha pro lado */}
+        </BackToLogin>
       </Container>
     </>
   );
@@ -29,8 +38,9 @@ export default function Register() {
 
 export const Container = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0 auto;
+  justify-content: space-between;
+  max-width: 103.6rem;
 `;
 
 export const AuthInputs = styled.div`
@@ -92,7 +102,7 @@ export const Input = styled.input`
     font-weight: 400;
   }
 
-  outline: none; //TODO fazer uma transicao ao clicar no input
+  outline: none; /* //TODO fazer uma transicao ao clicar no input */
 `;
 
 export const Button = styled.button`
@@ -108,4 +118,40 @@ export const Button = styled.button`
   height: 5rem;
 
   background-color: #837e9f;
+`;
+
+export const BackToLogin = styled.div`
+  width: 48rem;
+
+  h1 {
+    font-family: "Poppins", sans-serif;
+    margin-top: 34.3rem;
+    margin-bottom: 3.9rem;
+
+    font-size: 4rem;
+    color: #fff;
+  }
+
+  h2 {
+    font-family: "Merriweather Sans", sans-serif;
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  h3 {
+    margin-top: 3.5rem;
+    font-family: "Merriweather Sans", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  p {
+    font-family: "Poppins", sans-serif;
+
+    margin-top: 9rem;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #837e9f;
+  }
 `;
