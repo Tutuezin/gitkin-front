@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Form, Input, Button } from "../../components/authComponents";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -70,54 +71,6 @@ export const AuthInputs = styled.div`
   span {
     color: #837e9f;
   }
-`;
-
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const Input = styled.input`
-  display: flex;
-
-  min-height: 5rem;
-  min-width: 32.7rem;
-  padding-left: 15px;
-  margin-bottom: 2rem;
-
-  border-radius: 0.5rem;
-  border: none;
-  background-color: #22212c;
-
-  font-family: "Poppins", sans-serif;
-  font-size: 1.6rem;
-  color: #fff;
-
-  &::placeholder {
-    font-family: "Poppins", sans-serif;
-    opacity: 1;
-    color: #fff;
-    font-size: 1.6rem;
-    font-weight: 400;
-  }
-
-  outline: none; /* //TODO fazer uma transicao ao clicar no input */
-`;
-
-export const Button = styled.button`
-  font-family: "Merriweather Sans", sans-serif;
-  font-size: 2.3rem;
-  color: #fff;
-
-  border: none;
-  border-radius: 0.5rem;
-
-  margin-top: 3.5rem;
-  width: 32.7rem;
-  height: 5rem;
-
-  background-color: #837e9f;
 `;
 
 export const BackToLogin = styled.div`
