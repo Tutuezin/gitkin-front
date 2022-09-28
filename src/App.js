@@ -1,4 +1,4 @@
-import GlobalStyle from "./styles/GlobalStyle";
+import GlobalStyle from "./assets/styles/GlobalStyle";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
 import Register from "./pages/auth/Register";

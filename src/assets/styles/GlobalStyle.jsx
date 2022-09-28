@@ -105,6 +105,7 @@ section {
 }
 body {
   line-height: 1;
+  background-color: #22212C;
 }
 ol,
 ul {
@@ -128,6 +129,9 @@ table {
 * {
   box-sizing: border-box;
   
+}
+html {
+  font-size: 62.5%;
 }
 `;
 
