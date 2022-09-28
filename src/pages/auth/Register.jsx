@@ -46,10 +46,10 @@ export const Container = styled.div`
 export const AuthInputs = styled.div`
   min-height: 66rem;
   min-width: 45.6rem;
-  margin-top: 24.6rem;
+  margin-top: 22rem;
 
   background-color: #302f3d;
-  border-radius: 2rem;
+  border-radius: 1rem;
   padding: 6.4rem;
 
   h2 {
@@ -128,7 +128,7 @@ export const BackToLogin = styled.div`
     margin-top: 34.3rem;
     margin-bottom: 3.9rem;
 
-    font-size: 4rem;
+    font-size: 5rem;
     color: #fff;
   }
 
@@ -139,7 +139,7 @@ export const BackToLogin = styled.div`
     color: #fff;
   }
   h3 {
-    margin-top: 3.5rem;
+    margin-top: 3rem;
     font-family: "Merriweather Sans", sans-serif;
     font-size: 1.5rem;
     font-weight: 400;
@@ -147,6 +147,7 @@ export const BackToLogin = styled.div`
   }
 
   p {
+    cursor: pointer;
     font-family: "Poppins", sans-serif;
 
     margin-top: 9rem;
