@@ -34,6 +34,8 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
+  cursor: pointer;
+
   font-family: "Merriweather Sans", sans-serif;
   font-size: 2.3rem;
   color: #fff;
@@ -41,9 +43,13 @@ export const Button = styled.button`
   border: none;
   border-radius: 0.5rem;
 
-  margin-top: 3.5rem;
   width: 32.7rem;
   height: 5rem;
-
   background-color: #837e9f;
+
+  &:hover {
+    transition: background 0.3s ease 0s, color 0.3s ease 0s;
+    background-color: #b6b2c9;
+    color: #837e9f;
+  }
 `;

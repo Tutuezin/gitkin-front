@@ -7,29 +7,20 @@ export default function Register() {
   return (
     <>
       <Container>
-        <AuthInputs>
-          <h2>Crie sua conta</h2>
-          <Form>
-            <Input type="email" placeholder="Seu e-mail"></Input>
-            <Input type="text" placeholder="Seu nome"></Input>
-            <Input type="password" placeholder="Sua senha"></Input>
-            <Input type="password" placeholder="Confirme sua senha"></Input>
-            <p>
-              Ao se registrar, você aceita nossos <span>termos de uso</span> e a
-              nossa <span>política de privacidade</span>.
-            </p>
-            <Button>Cadastrar</Button>
-          </Form>
-        </AuthInputs>
         <BackToLogin>
           <h1>GitKin</h1>
-          <h2>A solução perfeita para a criação do seu portifólio.</h2>
-          <h3>
-            Junte-se a essa família de devs faça seus portifólio e nos mostre a
-            direção dos seus objetivos!
-          </h3>
-          <p>Voltar para login</p> {/* //TODO colocar uma setinha pro lado */}
+          <h2>Faça seu login na plataforma</h2>
         </BackToLogin>
+        <AuthInputs>
+          <Form>
+            <Input type="email" placeholder="Seu e-mail"></Input>
+            <Input type="password" placeholder="Sua senha"></Input>
+            <Button>Cadastrar</Button>
+          </Form>
+          <p>
+            Não tem uma conta? <span>Registre-se!</span>
+          </p>
+        </AuthInputs>
       </Container>
     </>
   );
@@ -43,9 +34,9 @@ export const Container = styled.div`
 `;
 
 export const AuthInputs = styled.div`
-  min-height: 66rem;
+  min-height: 35rem;
   min-width: 45.6rem;
-  margin-top: 22rem;
+  margin-top: 30rem;
 
   background-color: #302f3d;
   border-radius: 1rem;
@@ -60,8 +51,7 @@ export const AuthInputs = styled.div`
   }
 
   p {
-    margin-bottom: 3.5rem;
-
+    margin-top: 2.4rem;
     max-width: 32.7rem;
     text-align: center;
     font-family: "Poppins", sans-serif;
@@ -69,6 +59,7 @@ export const AuthInputs = styled.div`
     color: #fff;
   }
   span {
+    cursor: pointer;
     color: #837e9f;
   }
 `;
@@ -81,31 +72,15 @@ export const BackToLogin = styled.div`
     margin-top: 34.3rem;
     margin-bottom: 3.9rem;
 
+    font-weight: 400;
     font-size: 5rem;
     color: #fff;
   }
 
   h2 {
     font-family: "Merriweather Sans", sans-serif;
-    font-size: 3.6rem;
+    font-size: 5.4rem;
     font-weight: 700;
     color: #fff;
-  }
-  h3 {
-    margin-top: 3rem;
-    font-family: "Merriweather Sans", sans-serif;
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: #b9b9b9;
-  }
-
-  p {
-    cursor: pointer;
-    font-family: "Poppins", sans-serif;
-
-    margin-top: 9rem;
-    font-size: 1.8rem;
-    font-weight: 400;
-    color: #837e9f;
   }
 `;
