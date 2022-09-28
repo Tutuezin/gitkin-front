@@ -25,7 +25,7 @@ export default function Register() {
           <h1>GitKin</h1>
           <h2>A solução perfeita para a criação do seu portifólio.</h2>
           <h3>
-            Junte-se a essa família de devs faça seus portifólio e nos mostre a
+            Junte-se a essa família de devs, faça seus portifólio e nos mostre a
             direção dos seus objetivos!
           </h3>
           <p>Voltar para login</p> {/* //TODO colocar uma setinha pro lado */}
@@ -92,6 +92,7 @@ export const BackToLogin = styled.div`
     color: #fff;
   }
   h3 {
+    line-height: 2.2rem;
     margin-top: 3rem;
     font-family: "Merriweather Sans", sans-serif;
     font-size: 1.5rem;
@@ -107,5 +108,10 @@ export const BackToLogin = styled.div`
     font-size: 1.8rem;
     font-weight: 400;
     color: #837e9f;
+
+    &:hover {
+      transition: color 0.3s ease 0s;
+      color: #b6b2c9;
+    }
   }
 `;
