@@ -2,6 +2,15 @@ import styled from "styled-components";
 import Header from "../../components/Header";
 import profileImg from "../../assets/images/profileImg.jpeg";
 import { MdModeEdit } from "react-icons/md";
+import {
+  FiMapPin,
+  FiGithub,
+  FiBriefcase,
+  FiLinkedin,
+  FiTwitter,
+  FiGlobe,
+  FiMail,
+} from "react-icons/fi";
 import { IconContext } from "react-icons";
 
 export default function Portfolio() {
@@ -22,6 +31,45 @@ export default function Portfolio() {
             </ProfilePicture>
             <MemberSince>membro desde 2022</MemberSince>
           </Profile>
+          <Infos>
+            <IconContext.Provider
+              value={{
+                style: {
+                  color: "#837e9f",
+                  fontSize: "2.5rem",
+                },
+              }}
+            >
+              <span>
+                <FiMapPin />
+                birubirubiru birubirubiru
+              </span>
+              <span>
+                <FiBriefcase />
+                birubirubiru
+              </span>
+              <span>
+                <FiGithub />
+                birubirubiru
+              </span>
+              <span>
+                <FiLinkedin />
+                birubirubiru
+              </span>
+              <span>
+                <FiTwitter />
+                birubirubiru
+              </span>
+              <span>
+                <FiGlobe />
+                birubirubiru
+              </span>
+              <span>
+                <FiMail />
+                birubirubiru
+              </span>
+            </IconContext.Provider>
+          </Infos>
         </ProfileInfos>
       </Container>
     </>
@@ -33,14 +81,16 @@ export const Container = styled.div`
   padding: 11.7rem 5rem 0 5rem;
 `;
 
-export const ProfileInfos = styled.div``;
+export const ProfileInfos = styled.div`
+  margin-right: 6rem;
+`;
 
 export const Profile = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
 
-  width: 34.8rem;
+  max-width: 34.8rem;
   height: 40rem;
   background-color: #302f3d;
   border-radius: 1rem;
@@ -98,4 +148,31 @@ export const MemberSince = styled.div`
   font-size: 1.5rem;
   font-weight: 400;
   color: #837e9f;
+`;
+
+export const Infos = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  padding: 3rem 2rem 3rem 4rem;
+
+  margin-top: 5rem;
+  margin-bottom: 100rem; //TODO tirar isso dps
+
+  max-width: 34.8rem;
+  height: 34.8rem;
+  background-color: #302f3d;
+  border-radius: 1rem;
+
+  span {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 2rem;
+
+    font-family: "Merriweather Sans", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #837e9f;
+  }
 `;
