@@ -11,7 +11,7 @@ export const Input = styled.input`
 
   min-height: 5rem;
   min-width: 32.7rem;
-  padding-left: 15px;
+  padding-left: 1.5rem;
   margin-bottom: 2rem;
 
   border-radius: 0.5rem;

@@ -40,6 +40,7 @@ export default function Portfolio() {
                 },
               }}
             >
+              {/* //TODO refatorar em outro componente */}
               <span>
                 <FiMapPin />
                 birubirubiru birubirubiru
@@ -71,13 +72,67 @@ export default function Portfolio() {
             </IconContext.Provider>
           </Infos>
         </ProfileInfos>
+
+        <AboutMe>
+          <div>
+            Sobre mim
+            <IconContext.Provider
+              value={{
+                style: {
+                  cursor: "pointer",
+                  color: "#837e9f",
+                  fontSize: "2rem",
+                },
+              }}
+            >
+              <MdModeEdit />
+            </IconContext.Provider>
+          </div>
+
+          <Input maxLength="400" /*  disabled */ />
+        </AboutMe>
       </Container>
     </>
   );
 }
 
-export const Container = styled.div`
+export const AboutMe = styled.div`
   width: 100%;
+  height: 16rem;
+  background-color: #302f3d;
+  border-radius: 1rem;
+
+  padding: 2rem 2rem 1rem 5rem;
+  font-family: "Merriweather Sans", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #837e9f;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+export const Input = styled.textarea`
+  height: 10rem;
+  width: 100%;
+  padding-left: 1.5rem;
+  margin-top: 1.5rem;
+
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #302f3d;
+
+  font-family: "Poppins", sans-serif;
+  font-size: 1.6rem;
+  color: #fff;
+
+  outline: none;
+`;
+
+export const Container = styled.div`
+  display: flex;
   padding: 11.7rem 5rem 0 5rem;
 `;
 
@@ -90,7 +145,7 @@ export const Profile = styled.div`
   align-items: center;
   flex-direction: column;
 
-  max-width: 34.8rem;
+  min-width: 34.8rem;
   height: 40rem;
   background-color: #302f3d;
   border-radius: 1rem;
@@ -157,9 +212,7 @@ export const Infos = styled.div`
   padding: 3rem 2rem 3rem 4rem;
 
   margin-top: 5rem;
-  margin-bottom: 100rem; //TODO tirar isso dps
-
-  max-width: 34.8rem;
+  min-width: 34.8rem;
   height: 34.8rem;
   background-color: #302f3d;
   border-radius: 1rem;
