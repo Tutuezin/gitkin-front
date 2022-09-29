@@ -7,10 +7,10 @@ export default function Register() {
   return (
     <>
       <Container>
-        <BackToLogin>
+        <ConnectPlatform>
           <h1>GitKin</h1>
           <h2>Faça seu login na plataforma</h2>
-        </BackToLogin>
+        </ConnectPlatform>
         <AuthInputs>
           <Form>
             <Input type="email" placeholder="Seu e-mail"></Input>
@@ -61,10 +61,14 @@ export const AuthInputs = styled.div`
   span {
     cursor: pointer;
     color: #837e9f;
+    &:hover {
+      transition: color 0.3s ease 0s;
+      color: #b6b2c9;
+    }
   }
 `;
 
-export const BackToLogin = styled.div`
+export const ConnectPlatform = styled.div`
   width: 48rem;
 
   h1 {
