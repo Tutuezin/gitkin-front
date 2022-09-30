@@ -36,7 +36,7 @@ const HeaderPage = styled.header`
   height: 8.5rem;
   background-color: #22212c;
   border-bottom: 0.1rem solid #837e9f;
-  padding: 0 5rem 0 5rem;
+  padding: 0 10rem;
 
   h1 {
     font-size: 4rem;
