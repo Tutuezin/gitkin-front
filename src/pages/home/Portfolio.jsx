@@ -4,16 +4,19 @@ import profileImg from "../../assets/images/profileImg.jpeg";
 import { MdModeEdit } from "react-icons/md";
 import {
   FiMapPin,
-  FiGithub,
   FiBriefcase,
+  FiGithub,
   FiLinkedin,
   FiTwitter,
   FiGlobe,
   FiMail,
 } from "react-icons/fi";
 import { IconContext } from "react-icons";
+import { useRef } from "react";
 
 export default function Portfolio() {
+  // const test = useRef();
+
   return (
     <>
       <Header />
@@ -31,7 +34,8 @@ export default function Portfolio() {
             </ProfilePicture>
             <MemberSince>membro desde 2022</MemberSince>
           </Profile>
-          <Infos>
+
+          <Infos /* ref={test} */>
             <IconContext.Provider
               value={{
                 style: {
@@ -40,65 +44,92 @@ export default function Portfolio() {
                 },
               }}
             >
-              {/* //TODO refatorar em outro componente */}
+              {/* //TODO refatorar "infos" em outro componente */}
               <span>
                 <FiMapPin />
                 birubirubiru birubirubiru
               </span>
               <span>
                 <FiBriefcase />
-                birubirubiru
+                birubirubiru birubirubiru
               </span>
               <span>
                 <FiGithub />
-                birubirubiru
+                birubirubiru birubirubiru
               </span>
               <span>
                 <FiLinkedin />
-                birubirubiru
+                birubirubiru birubirubiru
               </span>
               <span>
                 <FiTwitter />
-                birubirubiru
+                birubirubiru birubirubiru
               </span>
               <span>
                 <FiGlobe />
-                birubirubiru
+                birubirubiru birubirubiru
               </span>
               <span>
                 <FiMail />
-                birubirubiru
+                birubirubiru birubirubiru
               </span>
             </IconContext.Provider>
           </Infos>
         </ProfileInfos>
 
-        <AboutMe>
-          <div>
-            Sobre mim
-            <IconContext.Provider
-              value={{
-                style: {
-                  cursor: "pointer",
-                  color: "#837e9f",
-                  fontSize: "2rem",
-                },
+        <Section>
+          {/* //TODO refatorar "about me" em outro componente */}
+          <AboutMe>
+            <div>
+              Sobre mim
+              <IconContext.Provider
+                value={{
+                  style: {
+                    cursor: "pointer",
+                    color: "#837e9f",
+                    fontSize: "2rem",
+                  },
+                }}
+              >
+                <MdModeEdit />
+              </IconContext.Provider>
+            </div>
+            <Input
+              maxLength="400"
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                }
               }}
-            >
-              <MdModeEdit />
-            </IconContext.Provider>
-          </div>
-
-          <Input maxLength="400" /*  disabled */ />
-        </AboutMe>
+              disabled
+            />
+          </AboutMe>
+          <Technologies>
+            <div>
+              Tecnologias
+              <IconContext.Provider
+                value={{
+                  style: {
+                    cursor: "pointer",
+                    color: "#837e9f",
+                    fontSize: "2rem",
+                  },
+                }}
+              >
+                <MdModeEdit />
+              </IconContext.Provider>
+            </div>
+          </Technologies>
+        </Section>
       </Container>
     </>
   );
 }
 
-export const AboutMe = styled.div`
+export const Technologies = styled.div`
+  margin-top: 3rem;
   width: 100%;
-  height: 16rem;
+  height: 20.4rem;
   background-color: #302f3d;
   border-radius: 1rem;
 
@@ -114,26 +145,15 @@ export const AboutMe = styled.div`
   }
 `;
 
-export const Input = styled.textarea`
-  height: 10rem;
-  width: 100%;
-  padding-left: 1.5rem;
-  margin-top: 1.5rem;
-
-  border-radius: 0.5rem;
-  border: none;
-  background-color: #302f3d;
-
-  font-family: "Poppins", sans-serif;
-  font-size: 1.6rem;
-  color: #fff;
-
-  outline: none;
-`;
-
 export const Container = styled.div`
   display: flex;
   padding: 11.7rem 5rem 0 5rem;
+`;
+
+export const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
 
 export const ProfileInfos = styled.div`
@@ -205,6 +225,7 @@ export const MemberSince = styled.div`
   color: #837e9f;
 `;
 
+//TODO refatorar "infos" em outro componente
 export const Infos = styled.div`
   display: flex;
   flex-direction: column;
@@ -213,7 +234,7 @@ export const Infos = styled.div`
 
   margin-top: 5rem;
   min-width: 34.8rem;
-  height: 34.8rem;
+  max-height: 34.8rem;
   background-color: #302f3d;
   border-radius: 1rem;
 
@@ -228,4 +249,41 @@ export const Infos = styled.div`
     font-weight: 400;
     color: #837e9f;
   }
+`;
+
+//TODO refatorar "about me" em um componente
+export const AboutMe = styled.div`
+  width: 100%;
+  height: 16rem;
+  background-color: #302f3d;
+  border-radius: 1rem;
+
+  padding: 2rem 2rem 1rem 5rem;
+  font-family: "Merriweather Sans", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #837e9f;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+export const Input = styled.textarea`
+  height: 10rem;
+  width: 100%;
+  padding-left: 1.5rem;
+  margin-top: 1.5rem;
+
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #302f3d;
+
+  font-family: "Poppins", sans-serif;
+  font-size: 1.6rem;
+  color: #fff;
+
+  resize: none;
+  outline: none;
 `;
