@@ -126,25 +126,6 @@ export default function Portfolio() {
   );
 }
 
-export const Technologies = styled.div`
-  margin-top: 3rem;
-  width: 100%;
-  height: 20.4rem;
-  background-color: #302f3d;
-  border-radius: 1rem;
-
-  padding: 2rem 2rem 1rem 5rem;
-  font-family: "Merriweather Sans", sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #837e9f;
-
-  div {
-    display: flex;
-    justify-content: space-between;
-  }
-`;
-
 export const Container = styled.div`
   display: flex;
   padding: 11.7rem 5rem 0 5rem;
@@ -286,4 +267,23 @@ export const Input = styled.textarea`
 
   resize: none;
   outline: none;
+`;
+
+export const Technologies = styled.div`
+  margin-top: 3rem;
+  width: 100%;
+  height: 20.4rem;
+  background-color: #302f3d;
+  border-radius: 1rem;
+
+  padding: 2rem 2rem 1rem 5rem;
+  font-family: "Merriweather Sans", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #837e9f;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
