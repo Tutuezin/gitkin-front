@@ -12,20 +12,10 @@ export default function Header() {
           <h3>Tecnologias</h3>
           <h3>Projetos</h3>
         </NavBar>
-        <IconContext.Provider
-          value={{
-            style: {
-              color: "#837e9f",
-              fontSize: "4rem",
-              cursor: "pointer",
-            },
-          }}
-        >
-          <BiLogOutCircle /* //TODO arrumar o hover depois */
-            onMouseOver={({ target }) => (target.style.color = "#b6b2c9")}
-            onMouseOut={({ target }) => (target.style.color = "#837e9f")}
-          />
-        </IconContext.Provider>
+
+        <Hover>
+          <BiLogOutCircle />
+        </Hover>
       </HeaderPage>
     </>
   );
@@ -76,4 +66,15 @@ const NavBar = styled.header`
   font-size: 2rem;
   font-weight: 400;
   color: #837e9f;
+`;
+
+const Hover = styled.div`
+  cursor: pointer;
+  color: #837e9f;
+  font-size: 4rem;
+
+  &:hover svg path {
+    transition: all 0.3s ease 0s;
+    fill: #b6b2c9;
+  }
 `;
