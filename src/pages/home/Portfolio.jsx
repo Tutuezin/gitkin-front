@@ -15,6 +15,7 @@ import {
 } from "react-icons/fi";
 import { IconContext } from "react-icons";
 import { useRef } from "react";
+import Social from "../../components/Infos";
 
 export default function Portfolio() {
   // const test = useRef();
@@ -38,44 +39,7 @@ export default function Portfolio() {
           </Profile>
 
           <Infos /* ref={test} */>
-            <IconContext.Provider
-              value={{
-                style: {
-                  color: "#837e9f",
-                  fontSize: "2.5rem",
-                },
-              }}
-            >
-              {/* //TODO refatorar "infos" em outro componente */}
-              <span>
-                <FiMapPin />
-                birubirubiru birubirubiru
-              </span>
-              <span>
-                <FiBriefcase />
-                birubirubiru birubirubiru
-              </span>
-              <span>
-                <FiGithub />
-                birubirubiru birubirubiru
-              </span>
-              <span>
-                <FiLinkedin />
-                birubirubiru birubirubiru
-              </span>
-              <span>
-                <FiTwitter />
-                birubirubiru birubirubiru
-              </span>
-              <span>
-                <FiGlobe />
-                birubirubiru birubirubiru
-              </span>
-              <span>
-                <FiMail />
-                birubirubiru birubirubiru
-              </span>
-            </IconContext.Provider>
+            <Social />
           </Infos>
         </ProfileInfos>
 
@@ -251,13 +215,13 @@ export const MemberSince = styled.div`
 `;
 
 //TODO refatorar "infos" em outro componente
-export const Infos = styled.div`
+export const Infos = styled.ul`
   display: flex;
   flex-direction: column;
 
   padding: 3rem 2rem 3rem 4rem;
 
-  margin-top: 5rem;
+  margin: 5rem 0;
   min-width: 34.8rem;
   max-height: 34.8rem;
   background-color: #302f3d;
