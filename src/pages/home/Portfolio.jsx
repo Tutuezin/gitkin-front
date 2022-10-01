@@ -7,6 +7,7 @@ import { IconContext } from "react-icons";
 import { useRef } from "react";
 import Social from "../../components/Infos";
 import AboutMe from "../../components/About";
+import Technologies from "../../components/Technologies";
 
 export default function Portfolio() {
   // const test = useRef();
@@ -36,23 +37,8 @@ export default function Portfolio() {
 
         <Section>
           <AboutMe />
+          <Technologies />
 
-          <Technologies>
-            <div>
-              Tecnologias
-              <IconContext.Provider
-                value={{
-                  style: {
-                    cursor: "pointer",
-                    color: "#837e9f",
-                    fontSize: "2rem",
-                  },
-                }}
-              >
-                <MdModeEdit />
-              </IconContext.Provider>
-            </div>
-          </Technologies>
           <AddRepositories>
             <div>
               Meus Projetos
@@ -70,7 +56,7 @@ export default function Portfolio() {
             </div>
           </AddRepositories>
           <Repositories>
-            <Repositorie>
+            <Repository>
               <div>
                 <IconContext.Provider
                   value={{
@@ -91,7 +77,7 @@ export default function Portfolio() {
                 desc desc desc desc desc desc desc desc desc descdesc desc desc
                 {/* 225 caracteres */}
               </p>
-            </Repositorie>
+            </Repository>
           </Repositories>
         </Section>
       </Container>
@@ -195,30 +181,9 @@ const Infos = styled.ul`
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2);
 `;
 
-//TODO refatorar "Tecnologias" em um componente
-export const Technologies = styled.div`
-  margin-top: 3rem;
-  width: 100%;
-  height: 20.4rem;
-  background-color: #302f3d;
-  border-radius: 1rem;
-  box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2);
-
-  padding: 2rem 2rem 1rem 5rem;
-  font-family: "Merriweather Sans", sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #837e9f;
-
-  div {
-    display: flex;
-    justify-content: space-between;
-  }
-`;
-
 //TODO refatorar "repositorios" em um componente
 export const AddRepositories = styled.div`
-  margin-top: 4rem;
+  margin-top: 2.5rem;
   margin-bottom: 2.5rem;
   width: 100%;
   height: 6.4rem;
@@ -247,7 +212,7 @@ export const Repositories = styled.div`
   width: 100%;
 `;
 
-export const Repositorie = styled.div`
+export const Repository = styled.div`
   margin-bottom: -1.5rem;
   width: 44rem;
   height: 16.3rem;
