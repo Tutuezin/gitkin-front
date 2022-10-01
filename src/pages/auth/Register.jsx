@@ -3,6 +3,7 @@ import validator from "email-validator";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button, InputWrap } from "../../components/authComponents";
+import { FiArrowLeft } from "react-icons/fi";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -80,7 +81,6 @@ export default function Register() {
                   },
                   {
                     validator: (_, value) => {
-                      console.log(form.getFieldValue("password"));
                       if (value !== form.getFieldValue("password"))
                         return Promise.reject("Senhas não coincidem");
                       return Promise.resolve();
@@ -109,7 +109,10 @@ export default function Register() {
             Junte-se a essa família de devs, faça seus portifólio e nos mostre a
             direção dos seus objetivos!
           </h3>
-          <p>Voltar para login</p> {/* //TODO colocar uma setinha pro lado */}
+          <p onClick={() => navigate("/signin")}>
+            <FiArrowLeft />
+            Voltar para login
+          </p>
         </BackToLogin>
       </Container>
     </>
@@ -188,6 +191,8 @@ export const BackToLogin = styled.div`
   }
 
   p {
+    display: flex;
+    align-items: center;
     cursor: pointer;
     font-family: "Poppins", sans-serif;
 
