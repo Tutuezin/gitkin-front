@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
 import profileImg from "../../assets/images/a.png";
-import { FiPlus, FiFolder } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useRef } from "react";
 import Social from "../../components/Infos";
 import AboutMe from "../../components/About";
 import Technologies from "../../components/Technologies";
+import Repository from "../../components/Repository";
 
 export default function Portfolio() {
   // const test = useRef();
@@ -56,28 +57,8 @@ export default function Portfolio() {
             </div>
           </AddRepositories>
           <Repositories>
-            <Repository>
-              <div>
-                <IconContext.Provider
-                  value={{
-                    style: {
-                      cursor: "pointer",
-                      color: "#837e9f",
-                      fontSize: "2rem",
-                    },
-                  }}
-                >
-                  <FiFolder />
-                </IconContext.Provider>
-                ReporeporeporepoReporepo
-              </div>
-              <p>
-                desc desc desc desc desc desc desc desc desc desc desc desc desc
-                desc desc desc desc desc desc desc desc desc desc descdesc desc
-                desc desc desc desc desc desc desc desc desc descdesc desc desc
-                {/* 225 caracteres */}
-              </p>
-            </Repository>
+            <Repository />
+            <Repository />
           </Repositories>
         </Section>
       </Container>
@@ -181,7 +162,6 @@ const Infos = styled.ul`
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2);
 `;
 
-//TODO refatorar "repositorios" em um componente
 export const AddRepositories = styled.div`
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
@@ -210,30 +190,4 @@ export const Repositories = styled.div`
   justify-content: space-around;
   gap: 4.5rem;
   width: 100%;
-`;
-
-export const Repository = styled.div`
-  margin-bottom: -1.5rem;
-  width: 44rem;
-  height: 16.3rem;
-  background-color: #302f3d;
-  border-radius: 1rem;
-  box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2);
-
-  padding: 3rem 2rem 1rem 2.5rem;
-  font-family: "Merriweather Sans", sans-serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #837e9f;
-
-  div {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  p {
-    margin-top: 2rem;
-  }
 `;
