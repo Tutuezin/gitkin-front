@@ -1,24 +1,105 @@
+import { Form, Input } from "antd";
+import validator from "email-validator";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Form, Input, Button } from "../../components/authComponents";
+import { Button, InputWrap } from "../../components/authComponents";
 
 export default function Register() {
   const navigate = useNavigate();
+
+  const [form] = Form.useForm();
+
   return (
     <>
       <Container>
         <AuthInputs>
           <h2>Crie sua conta</h2>
-          <Form>
-            <Input type="email" placeholder="Seu e-mail"></Input>
-            <Input type="text" placeholder="Seu nome"></Input>
-            <Input type="password" placeholder="Sua senha"></Input>
-            <Input type="password" placeholder="Confirme sua senha"></Input>
+          <Form
+            form={form}
+            className="form"
+            onFinish={(values) => {
+              console.log(values);
+            }}
+          >
+            <InputWrap>
+              <Form.Item
+                name="email"
+                validateFirst
+                rules={[
+                  {
+                    required: true,
+                    message: "Digite seu e-mail!",
+                  },
+                  {
+                    validator: (_, value) => {
+                      if (!validator.validate(value))
+                        return Promise.reject("Digite um e-mail válido");
+                      return Promise.resolve();
+                    },
+                  },
+                ]}
+              >
+                <Input className="input" placeholder="Seu e-mail" />
+              </Form.Item>
+            </InputWrap>
+            <InputWrap>
+              <Form.Item
+                name="name"
+                validateFirst
+                rules={[
+                  {
+                    required: true,
+                    message: "Digite seu nome!",
+                  },
+                ]}
+              >
+                <Input className="input" placeholder="Seu nome" />
+              </Form.Item>
+            </InputWrap>
+            <InputWrap>
+              <Form.Item
+                name="password"
+                validateFirst
+                rules={[
+                  {
+                    required: true,
+                    message: "Digita uma senha!",
+                  },
+                ]}
+              >
+                <Input.Password className="input" placeholder="Sua senha" />
+              </Form.Item>
+            </InputWrap>
+            <InputWrap>
+              <Form.Item
+                name="confirmPassword"
+                rules={[
+                  {
+                    required: true,
+                    message: "Confirme sua senha!",
+                  },
+                  {
+                    validator: (_, value) => {
+                      console.log(form.getFieldValue("password"));
+                      if (value !== form.getFieldValue("password"))
+                        return Promise.reject("Senhas não coincidem");
+                      return Promise.resolve();
+                    },
+                  },
+                ]}
+                dependencies={["password"]}
+              >
+                <Input.Password
+                  className="input"
+                  placeholder="Confirme sua senha"
+                />
+              </Form.Item>
+            </InputWrap>
             <p>
               Ao se registrar, você aceita nossos <span>termos de uso</span> e a
               nossa <span>política de privacidade</span>.
             </p>
-            <Button>Cadastrar</Button>
+            <Button type="submit">Cadastrar</Button>
           </Form>
         </AuthInputs>
         <BackToLogin>
@@ -43,6 +124,12 @@ export const Container = styled.div`
 `;
 
 export const AuthInputs = styled.div`
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
   min-height: 66rem;
   min-width: 45.6rem;
   margin-top: 22rem;
@@ -60,7 +147,7 @@ export const AuthInputs = styled.div`
   }
 
   p {
-    margin-bottom: 3.5rem;
+    margin-bottom: 1.5rem;
 
     max-width: 32.7rem;
     text-align: center;
