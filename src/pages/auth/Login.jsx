@@ -62,7 +62,8 @@ export default function Register() {
             <Button>Cadastrar</Button>
           </Form>
           <p>
-            Não tem uma conta? <span>Registre-se!</span>
+            Não tem uma conta?{" "}
+            <span onClick={() => navigate("/signup")}>Registre-se!</span>
           </p>
         </AuthInputs>
       </Container>
