@@ -54,7 +54,7 @@ export default function Social() {
   );
 }
 
-export const Info = styled.li`
+const Info = styled.li`
   display: flex;
   align-items: center;
   margin-bottom: 2rem;
