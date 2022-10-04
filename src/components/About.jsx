@@ -29,6 +29,7 @@ export default function AboutMe() {
           </IconContext.Provider>
         </div>
         <Input
+          //TODO fazer um contador de caracteres descendo
           maxLength="400"
           onKeyDown={(event) => {
             if (event.key === "Enter") {
