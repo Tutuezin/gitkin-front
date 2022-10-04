@@ -16,7 +16,7 @@ function App() {
             <Route path="/" element={""}></Route>
             <Route path="/signin" element={<Login />}></Route>
             <Route path="/signup" element={<Register />}></Route>
-            <Route path="/portfolio/:username" element={<Portfolio />}></Route>
+            <Route path="/:username" element={<Portfolio />}></Route>
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>
