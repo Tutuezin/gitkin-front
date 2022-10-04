@@ -1,25 +1,74 @@
 import { Form, Input } from "antd";
+import axios from "axios";
 import validator from "email-validator";
+import { useState } from "react";
+import { FiArrowLeft } from "react-icons/fi";
+import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { Button, InputWrap } from "../../components/authComponents";
-import { FiArrowLeft } from "react-icons/fi";
 
 export default function Register() {
   const navigate = useNavigate();
-
   const [form] = Form.useForm();
+  const [disable, setDisable] = useState(false);
+  const [loader, setLoader] = useState("Cadastrar");
+
+  const signUp = async (values) => {
+    const body = {
+      email: values.email,
+      userName: values.name,
+      password: values.password,
+    };
+
+    try {
+      await axios.post("http://localhost:4000/signup", body);
+      setDisable(true);
+      setLoader(<ThreeDots color="white" />);
+      navigate("/signin");
+    } catch (error) {
+      if (error.response.status === 409) notify();
+      setDisable(false);
+      setLoader("Cadastrar");
+    }
+  };
+
+  //TODO refatorar em outro arquivo
+  const notify = () =>
+    toast.error("Email ou username indisponíveis!", {
+      theme: "dark",
+      position: "top-right",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
 
   return (
     <>
       <Container>
+        <ToastContainer
+          theme="dark"
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <AuthInputs>
           <h2>Crie sua conta</h2>
           <Form
             form={form}
             className="form"
             onFinish={(values) => {
-              console.log(values);
+              signUp(values);
             }}
           >
             <InputWrap>
@@ -40,7 +89,11 @@ export default function Register() {
                   },
                 ]}
               >
-                <Input className="input" placeholder="Seu e-mail" />
+                <Input
+                  disabled={disable}
+                  className="input"
+                  placeholder="Seu e-mail"
+                />
               </Form.Item>
             </InputWrap>
             <InputWrap>
@@ -54,7 +107,11 @@ export default function Register() {
                   },
                 ]}
               >
-                <Input className="input" placeholder="Seu nome" />
+                <Input
+                  disabled={disable}
+                  className="input"
+                  placeholder="Seu nome"
+                />
               </Form.Item>
             </InputWrap>
             <InputWrap>
@@ -68,7 +125,11 @@ export default function Register() {
                   },
                 ]}
               >
-                <Input.Password className="input" placeholder="Sua senha" />
+                <Input.Password
+                  disabled={disable}
+                  className="input"
+                  placeholder="Sua senha"
+                />
               </Form.Item>
             </InputWrap>
             <InputWrap>
@@ -90,6 +151,7 @@ export default function Register() {
                 dependencies={["password"]}
               >
                 <Input.Password
+                  disabled={disable}
                   className="input"
                   placeholder="Confirme sua senha"
                 />
@@ -99,7 +161,9 @@ export default function Register() {
               Ao se registrar, você aceita nossos <span>termos de uso</span> e a
               nossa <span>política de privacidade</span>.
             </p>
-            <Button type="submit">Cadastrar</Button>
+            <Button disabled={disable} type="submit">
+              {loader}
+            </Button>
           </Form>
         </AuthInputs>
         <BackToLogin>

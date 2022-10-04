@@ -80,6 +80,9 @@ export const InputWrap = styled.div`
 
 export const Button = styled.button`
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   font-family: "Merriweather Sans", sans-serif;
   font-size: 2.3rem;
@@ -91,6 +94,10 @@ export const Button = styled.button`
   width: 32.7rem;
   height: 5rem;
   background-color: #837e9f;
+
+  svg {
+    height: 1.3rem;
+  }
 
   &:hover {
     transition: background 0.3s ease 0s, color 0.3s ease 0s;
