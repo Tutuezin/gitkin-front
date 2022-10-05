@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
-import profileImg from "../../assets/images/a.png";
 import { FiPlus } from "react-icons/fi";
 import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Social from "./Infos";
 import AboutMe from "./About";
 import Technologies from "./Technologies";
@@ -16,19 +15,24 @@ import axios from "axios";
 export default function Portfolio() {
   // const test = useRef();
   const localToken = localStorage.getItem("token");
+  const localName = localStorage.getItem("name");
+
   const [picture, setPicture] = useState("");
-  const { userName } = jwt(localToken);
+  const [name, setName] = useState("");
   const [occupation, setOccupation] = useState("");
   const [memberSince, setMemberSince] = useState("");
   const [aboutMe, setAboutMe] = useState("");
+  const { userName } = jwt(localToken);
 
   (async () => {
     try {
-      const profileInfos = await axios.get(`http://localhost:4000/${userName}`);
-      setPicture(profileInfos.data.picture);
-      setOccupation(profileInfos.data.occupation);
-      setMemberSince(profileInfos.data.createdAt.substr(0, 4));
-      setAboutMe(profileInfos.data.aboutMe);
+      const { data } = await axios.get(`http://localhost:4000/${userName}`);
+      setPicture(data.picture);
+      setName(data.name);
+      localStorage.setItem("name", data.name);
+      setOccupation(data.occupation);
+      setMemberSince(data.createdAt.substr(0, 4));
+      setAboutMe(data.aboutMe);
     } catch (error) {
       console.log(error);
     }
@@ -53,11 +57,15 @@ export default function Portfolio() {
         newInfos,
         config
       );
-      console.log(data);
     } catch (error) {
       console.log(error.response);
     }
   };
+
+  //TODO refatorar se necessario
+  function stringAvatar(name) {
+    return `${name.split(" ")[0][0]} ${name.split(" ")[1][0]}`;
+  }
 
   return (
     <>
@@ -70,9 +78,15 @@ export default function Portfolio() {
               <MdModeEdit />
             </Edit>
             <ProfilePicture>
-              <img width={175} height={175} src={picture} alt="" />
-              <h2>{userName}</h2>
-              <h3>{occupation}</h3>
+              {picture ? (
+                <img width={175} height={175} src={picture} alt="" />
+              ) : (
+                <Avatar>{stringAvatar(localName)}</Avatar>
+              )}
+
+              <h2>{name}</h2>
+              <h3>{`@${userName}`}</h3>
+              <h4>{occupation}</h4>
             </ProfilePicture>
             <MemberSince>{`membro desde ${memberSince}`}</MemberSince>
           </Profile>
@@ -139,6 +153,22 @@ const Profile = styled.div`
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2);
 `;
 
+const Avatar = styled.div`
+  font-family: "Merriweather Sans", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #837e9f;
+  color: #fff;
+  border-radius: 13.4rem;
+
+  width: 17.5rem;
+  height: 17.5rem;
+  font-size: 3.5rem;
+  font-weight: 700;
+  z-index: 0;
+`;
+
 const Edit = styled.div`
   cursor: pointer;
 
@@ -163,16 +193,23 @@ const ProfilePicture = styled.div`
 
   h2 {
     font-family: "Merriweather Sans", sans-serif;
-    margin-top: 1rem;
-    font-size: 2.3rem;
+    margin-top: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: #b6b2c9;
   }
-
   h3 {
+    display: flex;
     font-family: "Merriweather Sans", sans-serif;
     margin-top: 1rem;
-    font-size: 1.3rem;
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: #b6b2c9;
+  }
+
+  h4 {
+    font-family: "Merriweather Sans", sans-serif;
+    font-size: 1rem;
     font-weight: 400;
     color: #b6b2c9;
   }
