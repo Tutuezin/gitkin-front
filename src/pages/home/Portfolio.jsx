@@ -23,11 +23,41 @@ export default function Portfolio() {
   const [aboutMe, setAboutMe] = useState("");
 
   (async () => {
-    const profileInfos = await axios.get(`http://localhost:4000/${userName}`);
-    setPicture(profileInfos.data.picture);
-    setMemberSince(profileInfos.data.createdAt.substr(0, 4));
-    setAboutMe(profileInfos.data.aboutMe);
+    try {
+      const profileInfos = await axios.get(`http://localhost:4000/${userName}`);
+      setPicture(profileInfos.data.picture);
+      setOccupation(profileInfos.data.occupation);
+      setMemberSince(profileInfos.data.createdAt.substr(0, 4));
+      setAboutMe(profileInfos.data.aboutMe);
+    } catch (error) {
+      console.log(error);
+    }
   })();
+
+  const editProfile = async (aboutMe) => {
+    const newInfos = {
+      picture,
+      occupation,
+      aboutMe,
+    };
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localToken}`,
+      },
+    };
+
+    try {
+      const { data } = await axios.put(
+        `http://localhost:4000/${userName}`,
+        newInfos,
+        config
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
   return (
     <>
@@ -53,7 +83,7 @@ export default function Portfolio() {
         </ProfileInfos>
 
         <Section>
-          <AboutMe aboutMe={aboutMe} />
+          <AboutMe aboutMe={aboutMe} editProfile={editProfile} />
           <Technologies />
 
           <AddRepositories>

@@ -1,39 +1,5 @@
 import styled from "styled-components";
 
-//TODO depois que terminar a parte de login apagar as coisas desnecessarias
-/* export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`; */
-
-/* export const Input = styled.input`
-  display: flex;
-
-  min-height: 5rem;
-  min-width: 32.7rem;
-  padding-left: 1.5rem;
-  margin-bottom: 2rem;
-
-  border-radius: 0.5rem;
-  border: none;
-  background-color: #22212c;
-
-  font-family: "Poppins", sans-serif;
-  font-size: 1.6rem;
-  color: #fff;
-
-  &::placeholder {
-    font-family: "Poppins", sans-serif;
-    opacity: 1;
-    color: #fff;
-    font-size: 1.6rem;
-    font-weight: 400;
-  }
-
-  outline: none; 
-`; */
-
 export const InputWrap = styled.div`
   .input {
     background-color: #22212c !important;

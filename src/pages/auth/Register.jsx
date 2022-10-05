@@ -18,9 +18,12 @@ export default function Register() {
   const signUp = async (values) => {
     const body = {
       email: values.email,
-      userName: values.name,
+      name: values.name,
+      userName: values.userName,
       password: values.password,
     };
+
+    console.log(body);
 
     try {
       await axios.post("http://localhost:4000/signup", body);
@@ -69,6 +72,7 @@ export default function Register() {
             className="form"
             onFinish={(values) => {
               signUp(values);
+              console.log(values);
             }}
           >
             <InputWrap>
@@ -105,12 +109,48 @@ export default function Register() {
                     required: true,
                     message: "Digite seu nome!",
                   },
+                  {
+                    validator: (_, value) => {
+                      if (value.length > 25)
+                        return Promise.reject(
+                          "O máximo de caracteres foi atingido!"
+                        );
+                      return Promise.resolve();
+                    },
+                  },
                 ]}
               >
                 <Input
                   disabled={disable}
                   className="input"
                   placeholder="Seu nome"
+                />
+              </Form.Item>
+            </InputWrap>
+            <InputWrap>
+              <Form.Item
+                name="userName"
+                validateFirst
+                rules={[
+                  {
+                    required: true,
+                    message: "Digite seu nome de usuário!",
+                  },
+                  {
+                    validator: (_, value) => {
+                      if (value.length > 25)
+                        return Promise.reject(
+                          "O máximo de caracteres foi atingido!"
+                        );
+                      return Promise.resolve();
+                    },
+                  },
+                ]}
+              >
+                <Input
+                  disabled={disable}
+                  className="input"
+                  placeholder="Seu nome de usuário"
                 />
               </Form.Item>
             </InputWrap>
