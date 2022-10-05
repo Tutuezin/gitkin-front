@@ -4,13 +4,18 @@ import UserContext from "./contexts/UserContext";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import Portfolio from "./pages/home/Portfolio";
+import { useState } from "react";
 
 function App() {
+  const [token, setToken] = useState("");
+  const [userName, setUserName] = useState("");
+
+  const contextValue = { token, setToken, userName, setUserName };
   return (
     <>
       <GlobalStyle />
 
-      <UserContext.Provider value={""}>
+      <UserContext.Provider value={contextValue}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={""}></Route>
