@@ -26,6 +26,7 @@ export default function Register() {
     try {
       const { data } = await axios.post("http://localhost:4000/signin", body);
       setToken(data.token);
+      localStorage.setItem("token", data.token);
       setUserName(data.body.userName);
 
       setDisable(true);
