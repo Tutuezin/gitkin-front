@@ -3,12 +3,12 @@ import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useState } from "react";
 
-export default function AboutMe() {
+export default function AboutMe({ aboutMe }) {
   const [edit, setEdit] = useState(false);
 
   return (
     <>
-      <About>
+      <About edit={edit}>
         <div>
           Sobre mim
           <IconContext.Provider
@@ -37,6 +37,7 @@ export default function AboutMe() {
             }
           }}
           disabled={edit}
+          placeholder={aboutMe}
         />
       </About>
     </>
@@ -49,12 +50,13 @@ const About = styled.div`
   height: 16rem;
   background-color: #302f3d;
   border-radius: 1rem;
+  outline: ${({ edit }) => (edit ? "none" : "1px solid #b6b2c9")};
 
   padding: 2rem 2rem 1rem 5rem;
   font-family: "Merriweather Sans", sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: #837e9f;
+  color: #b6b2c9;
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2);
 
   div {
@@ -64,10 +66,9 @@ const About = styled.div`
 `;
 
 const Input = styled.textarea`
-  height: 10rem;
+  height: 9rem;
   width: 100%;
-  padding-left: 1.5rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 
   border-radius: 0.5rem;
   border: none;
@@ -79,4 +80,13 @@ const Input = styled.textarea`
 
   resize: none;
   outline: none;
+
+  &::placeholder {
+    font-family: "Poppins", sans-serif;
+    opacity: 1;
+    color: #b6b2c9;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.7rem;
+  }
 `;
