@@ -123,6 +123,13 @@ export default function Register() {
                     required: true,
                     message: "Digita uma senha!",
                   },
+                  {
+                    validator: (_, value) => {
+                      if (value.length < 5)
+                        return Promise.reject("Senha fraca!");
+                      return Promise.resolve();
+                    },
+                  },
                 ]}
               >
                 <Input.Password
