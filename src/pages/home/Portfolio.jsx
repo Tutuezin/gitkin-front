@@ -4,14 +4,30 @@ import profileImg from "../../assets/images/a.png";
 import { FiPlus } from "react-icons/fi";
 import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
-import { useRef } from "react";
-import Social from "../../components/Infos";
-import AboutMe from "../../components/About";
-import Technologies from "../../components/Technologies";
-import Repository from "../../components/Repository";
+import { useContext, useRef, useState } from "react";
+import Social from "./Infos";
+import AboutMe from "./About";
+import Technologies from "./Technologies";
+import Repository from "./Repository";
+import jwt from "jwt-decode";
+
+import axios from "axios";
 
 export default function Portfolio() {
   // const test = useRef();
+  const localToken = localStorage.getItem("token");
+  const [picture, setPicture] = useState("");
+  const { userName } = jwt(localToken);
+  const [occupation, setOccupation] = useState("");
+  const [memberSince, setMemberSince] = useState("");
+  const [aboutMe, setAboutMe] = useState("");
+
+  (async () => {
+    const profileInfos = await axios.get(`http://localhost:4000/${userName}`);
+    setPicture(profileInfos.data.picture);
+    setMemberSince(profileInfos.data.createdAt.substr(0, 4));
+    setAboutMe(profileInfos.data.aboutMe);
+  })();
 
   return (
     <>
@@ -24,11 +40,11 @@ export default function Portfolio() {
               <MdModeEdit />
             </Edit>
             <ProfilePicture>
-              <img width={175} height={175} src={profileImg} alt="" />
-              <h2>Arthur Alcantara</h2>
-              <h3>Full Stack Developer</h3>
+              <img width={175} height={175} src={picture} alt="" />
+              <h2>{userName}</h2>
+              <h3>{occupation}</h3>
             </ProfilePicture>
-            <MemberSince>membro desde 2022</MemberSince>
+            <MemberSince>{`membro desde ${memberSince}`}</MemberSince>
           </Profile>
 
           <Infos /* ref={test} */>
@@ -37,7 +53,7 @@ export default function Portfolio() {
         </ProfileInfos>
 
         <Section>
-          <AboutMe />
+          <AboutMe aboutMe={aboutMe} />
           <Technologies />
 
           <AddRepositories>
@@ -120,7 +136,7 @@ const ProfilePicture = styled.div`
     margin-top: 1rem;
     font-size: 2.3rem;
     font-weight: 700;
-    color: #837e9f;
+    color: #b6b2c9;
   }
 
   h3 {
@@ -128,7 +144,7 @@ const ProfilePicture = styled.div`
     margin-top: 1rem;
     font-size: 1.3rem;
     font-weight: 400;
-    color: #837e9f;
+    color: #b6b2c9;
   }
 `;
 
@@ -145,7 +161,7 @@ const MemberSince = styled.div`
   font-family: "Merriweather Sans", sans-serif;
   font-size: 1.5rem;
   font-weight: 400;
-  color: #837e9f;
+  color: #b6b2c9;
 `;
 
 const Infos = styled.ul`
