@@ -3,11 +3,55 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { InputWrap, Button } from "../../components/authComponents";
 import validator from "email-validator";
+import { toast, ToastContainer } from "react-toastify";
+import { useContext, useState } from "react";
+import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
+import UserContext from "../../contexts/UserContext";
 
 export default function Register() {
   const navigate = useNavigate();
+  const { setToken, setUserName } = useContext(UserContext);
 
   const [form] = Form.useForm();
+  const [disable, setDisable] = useState(false);
+  const [loader, setLoader] = useState("Entrar");
+
+  const signIn = async (values) => {
+    const body = {
+      email: values.email,
+      password: values.password,
+    };
+
+    try {
+      const { data } = await axios.post("http://localhost:4000/signin", body);
+      setToken(data.token);
+      setUserName(data.body.userName);
+
+      setDisable(true);
+      setLoader(<ThreeDots color="white" />);
+
+      navigate(`/${data.body.userName}`);
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) notify();
+      setDisable(false);
+      setLoader("Entrar");
+    }
+  };
+
+  //TODO refatorar em outro arquivo
+  const notify = () =>
+    toast.error("Email ou senha incorretos!", {
+      theme: "dark",
+      position: "top-right",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
 
   return (
     <>
@@ -16,12 +60,24 @@ export default function Register() {
           <h1>GitKin</h1>
           <h2>Faça seu login na plataforma</h2>
         </ConnectPlatform>
+        <ToastContainer
+          theme="dark"
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <AuthInputs>
           <Form
             form={form}
             className="form"
             onFinish={(values) => {
-              console.log(values);
+              signIn(values);
             }}
           >
             <InputWrap>
@@ -42,7 +98,11 @@ export default function Register() {
                   },
                 ]}
               >
-                <Input className="input" placeholder="Seu e-mail" />
+                <Input
+                  disabled={disable}
+                  className="input"
+                  placeholder="Seu e-mail"
+                />
               </Form.Item>
             </InputWrap>
             <InputWrap>
@@ -56,14 +116,18 @@ export default function Register() {
                   },
                 ]}
               >
-                <Input.Password className="input" placeholder="Sua senha" />
+                <Input.Password
+                  disabled={disable}
+                  className="input"
+                  placeholder="Sua senha"
+                />
               </Form.Item>
             </InputWrap>
-            <Button>Cadastrar</Button>
+            <Button disabled={disable}>{loader}</Button>
           </Form>
           <p>
-            Não tem uma conta?{" "}
-            <span onClick={() => navigate("/signup")}>Registre-se!</span>
+            Não tem uma conta?
+            <span onClick={() => navigate("/signup")}> Registre-se!</span>
           </p>
         </AuthInputs>
       </Container>

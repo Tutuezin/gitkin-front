@@ -96,7 +96,7 @@ export const Button = styled.button`
   background-color: #837e9f;
 
   svg {
-    height: 1.3rem;
+    height: 1.1rem;
   }
 
   &:hover {
