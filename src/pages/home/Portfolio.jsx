@@ -10,6 +10,7 @@ import Technologies from "./Technologies";
 import Repository from "./Repository";
 import jwt from "jwt-decode";
 import axios from "axios";
+import * as homeUtils from "../../utils/homeUtils";
 
 import { Modal, Form, Input } from "antd";
 
@@ -17,14 +18,22 @@ export default function Portfolio() {
   //TODO usar o useRef para usar a barra de navegação
   // const test = useRef();
   const localToken = localStorage.getItem("token");
-  const localName = localStorage.getItem("name");
 
   const [picture, setPicture] = useState("");
   const [name, setName] = useState("");
+  const [stringAvatar, setStringAvatar] = useState("");
   const [occupation, setOccupation] = useState("");
   const [memberSince, setMemberSince] = useState("");
   const [aboutMe, setAboutMe] = useState("");
-  const { userName } = jwt(localToken);
+  const [location, setLocation] = useState("");
+  const [work, setWork] = useState("");
+  const [github, setGithub] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [website, setWebsite] = useState("");
+  const [email, setEmail] = useState("");
+
+  const { userName, id } = jwt(localToken);
   const { confirm } = Modal;
   const [form] = Form.useForm();
 
@@ -33,10 +42,17 @@ export default function Portfolio() {
       const { data } = await axios.get(`http://localhost:4000/${userName}`);
       setPicture(data.picture);
       setName(data.name);
-      localStorage.setItem("name", data.name);
+      homeUtils.splitString(name, setStringAvatar);
       setOccupation(data.occupation);
       setMemberSince(data.createdAt.substr(0, 4));
       setAboutMe(data.aboutMe);
+      setLocation(data.socials[0]?.location);
+      setWork(data.socials[0]?.work);
+      setGithub(data.socials[0]?.github);
+      setLinkedin(data.socials[0]?.linkedin);
+      setTwitter(data.socials[0]?.twitter);
+      setWebsite(data.socials[0]?.website);
+      setEmail(data.socials[0]?.email);
     } catch (error) {
       console.log(error);
     }
@@ -47,6 +63,8 @@ export default function Portfolio() {
       aboutMe,
     };
 
+    console.log(newInfos);
+
     const config = {
       headers: {
         Authorization: `Bearer ${localToken}`,
@@ -54,16 +72,13 @@ export default function Portfolio() {
     };
 
     try {
-      const { data } = await axios.put(
-        `http://localhost:4000/${userName}`,
-        newInfos,
-        config
-      );
+      await axios.put(`http://localhost:4000/${userName}`, newInfos, config);
     } catch (error) {
       console.log(error.response);
     }
   };
 
+  //TODO refatorar em outro componente
   const editSocials = async (newSocials) => {
     const config = {
       headers: {
@@ -71,20 +86,35 @@ export default function Portfolio() {
       },
     };
 
+    const profile = {
+      name: newSocials.name,
+      picture: newSocials.picture,
+      occupation: newSocials.occupation,
+    };
+
+    const socials = {
+      location: newSocials.location,
+      work: newSocials.work,
+      github: newSocials.github,
+      linkedin: newSocials.linkedin,
+      twitter: newSocials.twitter,
+      website: newSocials.website,
+      email: newSocials.email,
+    };
+
+    console.log(socials);
+
     try {
-      const { data } = await axios.put(
-        `http://localhost:4000/${userName}`,
-        newSocials,
+      await axios.put(`http://localhost:4000/${userName}`, profile, config);
+
+      await axios.put(
+        `http://localhost:4000/${userName}/${id}`,
+        socials,
         config
       );
     } catch (error) {
       console.log(error.response);
     }
-  };
-
-  //TODO refatorar se necessario / Arrumar erro de por numero, uma so palavra e letra maiscula no userName
-  const stringAvatar = (name) => {
-    return `${name.split(" ")[0][0]} ${name.split(" ")[1][0]}`;
   };
 
   return (
@@ -121,6 +151,13 @@ export default function Portfolio() {
                               name="name"
                               label="Seu Nome"
                               initialValue={name}
+                              required={false}
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Seu nome é obrigatório!",
+                                },
+                              ]}
                             >
                               <Input className="input" />
                             </Form.Item>
@@ -147,7 +184,11 @@ export default function Portfolio() {
                             </Form.Item>
                           </InputWrap>
                           <InputWrap>
-                            <Form.Item name="location" label="Localização">
+                            <Form.Item
+                              name="location"
+                              label="Localização"
+                              initialValue={location}
+                            >
                               <Input className="input" />
                             </Form.Item>
                           </InputWrap>
@@ -155,25 +196,20 @@ export default function Portfolio() {
 
                         <section className="sectionInputs">
                           <InputWrap>
-                            <Form.Item name="work" label="Empresa">
+                            <Form.Item
+                              name="work"
+                              label="Empresa"
+                              initialValue={work}
+                            >
                               <Input className="input" />
                             </Form.Item>
                           </InputWrap>
                           <InputWrap>
-                            <Form.Item name="github" label="GitHub">
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                        </section>
-
-                        <section className="sectionInputs">
-                          <InputWrap>
-                            <Form.Item name="linkedin" label="Linkedin">
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                          <InputWrap>
-                            <Form.Item name="twitter" label="Twitter">
+                            <Form.Item
+                              name="github"
+                              label="GitHub"
+                              initialValue={github}
+                            >
                               <Input className="input" />
                             </Form.Item>
                           </InputWrap>
@@ -181,12 +217,41 @@ export default function Portfolio() {
 
                         <section className="sectionInputs">
                           <InputWrap>
-                            <Form.Item name="website" label="Website">
+                            <Form.Item
+                              name="linkedin"
+                              label="Linkedin"
+                              initialValue={linkedin}
+                            >
                               <Input className="input" />
                             </Form.Item>
                           </InputWrap>
                           <InputWrap>
-                            <Form.Item name="email" label="Email">
+                            <Form.Item
+                              name="twitter"
+                              label="Twitter"
+                              initialValue={twitter}
+                            >
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                        </section>
+
+                        <section className="sectionInputs">
+                          <InputWrap>
+                            <Form.Item
+                              name="website"
+                              label="Website"
+                              initialValue={website}
+                            >
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                          <InputWrap>
+                            <Form.Item
+                              name="email"
+                              label="Email"
+                              initialValue={email}
+                            >
                               <Input className="input" />
                             </Form.Item>
                           </InputWrap>
@@ -201,7 +266,7 @@ export default function Portfolio() {
               {picture ? (
                 <img width={175} height={175} src={picture} alt="" />
               ) : (
-                <Avatar>{stringAvatar(localName)}</Avatar>
+                <Avatar>{/* stringAvatar(localName) */ stringAvatar}</Avatar>
               )}
 
               <h2>{name}</h2>
@@ -366,17 +431,18 @@ const ProfilePicture = styled.div`
   h3 {
     display: flex;
     font-family: "Merriweather Sans", sans-serif;
-    margin-top: 1rem;
+    margin: 1rem 0;
     font-size: 1.7rem;
     font-weight: 400;
-    color: #b6b2c9;
+    color: #b6b2c989;
   }
 
   h4 {
+    margin-bottom: 2rem;
     font-family: "Merriweather Sans", sans-serif;
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: 400;
-    color: #b6b2c9;
+    color: #b6b2c989;
   }
 `;
 
@@ -387,7 +453,6 @@ const MemberSince = styled.div`
 
   width: 100%;
   height: 100%;
-  margin-top: 4.5rem;
   border-top: 0.2rem solid #22212c;
 
   font-family: "Merriweather Sans", sans-serif;
