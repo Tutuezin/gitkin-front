@@ -242,7 +242,7 @@ export const AuthInputs = styled.div`
 
   min-height: 66rem;
   min-width: 45.6rem;
-  margin-top: 10rem;
+  margin: 10rem 0;
 
   background-color: #302f3d;
   border-radius: 1rem;
