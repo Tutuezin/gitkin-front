@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { BiLogOutCircle } from "react-icons/bi";
-import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
