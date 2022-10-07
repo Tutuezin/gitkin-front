@@ -242,7 +242,7 @@ export const AuthInputs = styled.div`
 
   min-height: 66rem;
   min-width: 45.6rem;
-  margin-top: 22rem;
+  margin-top: 10rem;
 
   background-color: #302f3d;
   border-radius: 1rem;
@@ -275,7 +275,7 @@ export const BackToLogin = styled.div`
 
   h1 {
     font-family: "Poppins", sans-serif;
-    margin-top: 34.3rem;
+    margin-top: 24.3rem;
     margin-bottom: 3.9rem;
 
     font-size: 5rem;
