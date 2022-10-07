@@ -9,10 +9,12 @@ import AboutMe from "./About";
 import Technologies from "./Technologies";
 import Repository from "./Repository";
 import jwt from "jwt-decode";
-
 import axios from "axios";
 
+import { Modal, Form, Input } from "antd";
+
 export default function Portfolio() {
+  //TODO usar o useRef para usar a barra de navegação
   // const test = useRef();
   const localToken = localStorage.getItem("token");
   const localName = localStorage.getItem("name");
@@ -23,6 +25,8 @@ export default function Portfolio() {
   const [memberSince, setMemberSince] = useState("");
   const [aboutMe, setAboutMe] = useState("");
   const { userName } = jwt(localToken);
+  const { confirm } = Modal;
+  const [form] = Form.useForm();
 
   (async () => {
     try {
@@ -40,8 +44,6 @@ export default function Portfolio() {
 
   const editProfile = async (aboutMe) => {
     const newInfos = {
-      picture,
-      occupation,
       aboutMe,
     };
 
@@ -62,10 +64,28 @@ export default function Portfolio() {
     }
   };
 
-  //TODO refatorar se necessario
-  function stringAvatar(name) {
+  const editSocials = async (newSocials) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localToken}`,
+      },
+    };
+
+    try {
+      const { data } = await axios.put(
+        `http://localhost:4000/${userName}`,
+        newSocials,
+        config
+      );
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  //TODO refatorar se necessario / Arrumar erro de por numero, uma so palavra e letra maiscula no userName
+  const stringAvatar = (name) => {
     return `${name.split(" ")[0][0]} ${name.split(" ")[1][0]}`;
-  }
+  };
 
   return (
     <>
@@ -75,7 +95,107 @@ export default function Portfolio() {
         <ProfileInfos>
           <Profile>
             <Edit>
-              <MdModeEdit />
+              {/* //TODO transformar isso em um componente pelo amor de DEUS */}
+              <MdModeEdit
+                onClick={() => {
+                  confirm({
+                    icon: false,
+                    title: "Meu Perfil",
+                    onOk(_) {
+                      form.submit();
+                    },
+                    afterClose: () => form.resetFields(),
+                    maskClosable: true,
+                    content: (
+                      <Form
+                        form={form}
+                        className="form"
+                        layout="vertical"
+                        onFinish={(values) => {
+                          editSocials(values);
+                        }}
+                      >
+                        <section className="sectionInputs">
+                          <InputWrap>
+                            <Form.Item
+                              name="name"
+                              label="Seu Nome"
+                              initialValue={name}
+                            >
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                          <InputWrap>
+                            <Form.Item
+                              name="picture"
+                              label="Foto"
+                              initialValue={picture}
+                            >
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                        </section>
+
+                        <section className="sectionInputs">
+                          <InputWrap>
+                            <Form.Item
+                              name="occupation"
+                              label="Ocupação"
+                              initialValue={occupation}
+                            >
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                          <InputWrap>
+                            <Form.Item name="location" label="Localização">
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                        </section>
+
+                        <section className="sectionInputs">
+                          <InputWrap>
+                            <Form.Item name="work" label="Empresa">
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                          <InputWrap>
+                            <Form.Item name="github" label="GitHub">
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                        </section>
+
+                        <section className="sectionInputs">
+                          <InputWrap>
+                            <Form.Item name="linkedin" label="Linkedin">
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                          <InputWrap>
+                            <Form.Item name="twitter" label="Twitter">
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                        </section>
+
+                        <section className="sectionInputs">
+                          <InputWrap>
+                            <Form.Item name="website" label="Website">
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                          <InputWrap>
+                            <Form.Item name="email" label="Email">
+                              <Input className="input" />
+                            </Form.Item>
+                          </InputWrap>
+                        </section>
+                      </Form>
+                    ),
+                  });
+                }}
+              />
             </Edit>
             <ProfilePicture>
               {picture ? (
@@ -125,6 +245,51 @@ export default function Portfolio() {
     </>
   );
 }
+
+const InputWrap = styled.div`
+  label {
+    color: #fff;
+    font: 400 1.3rem "Merriweather Sans", sans-serif;
+  }
+  .ant-form-item-label {
+    padding-bottom: 0.5rem;
+  }
+
+  .input {
+    background-color: #22212c !important;
+    width: 30rem !important;
+    height: 5rem !important;
+    border-radius: 0.5rem !important;
+
+    color: #fff !important;
+    font: 400 1.6rem "Poppins", sans-serif !important;
+
+    input {
+      width: 32.7rem !important;
+      height: 5rem !important;
+      border: none !important;
+      background-color: #22212c !important;
+
+      font-family: "Poppins", sans-serif !important;
+      font-size: 1.6rem !important;
+      color: #fff !important;
+
+      &::placeholder {
+        font-family: "Poppins", sans-serif !important;
+        opacity: 1 !important;
+        color: #fff !important;
+        font-size: 1.6rem !important;
+        font-weight: 400 !important;
+      }
+    }
+    .ant-input-suffix svg path {
+      fill: #fff !important;
+    }
+  }
+  .ant-form-item {
+    margin: 0 !important;
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -245,7 +410,7 @@ const Infos = styled.ul`
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2);
 `;
 
-export const AddRepositories = styled.div`
+const AddRepositories = styled.div`
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
   width: 100%;
@@ -267,7 +432,7 @@ export const AddRepositories = styled.div`
   }
 `;
 
-export const Repositories = styled.div`
+const Repositories = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;

@@ -106,6 +106,56 @@ section {
 body {
   line-height: 1;
   background-color: #22212C;
+
+  .ant-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+  }
+
+   .ant-modal-content {
+    background-color:#302f3d ;
+    width: 80rem;
+    border-radius: 1rem;
+
+  
+
+    .ant-modal-confirm-title {
+    font: 700 2.5rem "Merriweather Sans", sans-serif ;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+
+    .sectionInputs {
+      display: flex;
+      justify-content: space-evenly;
+      width: 80rem;
+      margin-bottom: 1rem;
+    }
+    .ant-btn-primary {
+    font: 400 1.3rem "Merriweather Sans", sans-serif ;
+    background-color: #302f3d;
+    border-color: #fff;
+    }
+    .ant-btn-primary:hover {
+      background-color: #fff;
+      border-radius: 0.5rem;
+      border-color:#302f3d;
+      color: #302f3d ;
+
+    }
+
+      .ant-btn-default {
+    font: 400 1.3rem "Merriweather Sans", sans-serif ;
+    }
+    .ant-btn-default:hover {
+      background-color: #302f3d;
+      border-color:#fff;
+      color: #fff ;
+
+    }
+  }
 }
 ol,
 ul {
