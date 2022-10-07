@@ -19,12 +19,9 @@ export default function Register() {
     const body = {
       email: values.email,
       name: values.name,
-      userName: values.userName,
+      userName: values.userName.toLowerCase(),
       password: values.password,
     };
-
-    console.log(body);
-
     try {
       await axios.post("http://localhost:4000/signup", body);
       setDisable(true);
@@ -72,7 +69,6 @@ export default function Register() {
             className="form"
             onFinish={(values) => {
               signUp(values);
-              console.log(values);
             }}
           >
             <InputWrap>
