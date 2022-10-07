@@ -3,8 +3,9 @@ import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useState } from "react";
 
-export default function AboutMe({ aboutMe }) {
-  const [edit, setEdit] = useState(false);
+export default function AboutMe({ aboutMe, editProfile }) {
+  const [edit, setEdit] = useState(true);
+  const [input, setInput] = useState("");
 
   return (
     <>
@@ -22,18 +23,21 @@ export default function AboutMe({ aboutMe }) {
           >
             <MdModeEdit
               onClick={() => {
-                //TODO fazer algo para deixar mais claro que a textarea foi liberada
                 setEdit(edit === true ? false : true);
               }}
             />
           </IconContext.Provider>
         </div>
         <Input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           //TODO fazer um contador de caracteres descendo
           maxLength="400"
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               event.preventDefault();
+              editProfile(input);
+              setEdit(true);
             }
           }}
           disabled={edit}
@@ -76,7 +80,7 @@ const Input = styled.textarea`
 
   font-family: "Poppins", sans-serif;
   font-size: 1.6rem;
-  color: #fff;
+  color: #b6b2c9;
 
   resize: none;
   outline: none;
