@@ -10,7 +10,7 @@ import {
 } from "react-icons/fi";
 import { IconContext } from "react-icons";
 
-export default function Social() {
+export default function Social({ socials }) {
   return (
     <>
       <IconContext.Provider
@@ -21,34 +21,63 @@ export default function Social() {
           },
         }}
       >
-        <Info>
-          <FiMapPin />
-          birubirubiru birubirubiru
-        </Info>
-        <Info>
-          <FiBriefcase />
-          birubirubiru birubirubiru
-        </Info>
-        <Info>
-          <FiGithub />
-          birubirubiru birubirubiru
-        </Info>
-        <Info>
-          <FiLinkedin />
-          birubirubiru birubirubiru
-        </Info>
-        <Info>
-          <FiTwitter />
-          birubirubiru birubirubiru
-        </Info>
-        <Info>
-          <FiGlobe />
-          birubirubiru birubirubiru
-        </Info>
-        <Info>
-          <FiMail />
-          birubirubiru birubirubiru
-        </Info>
+        {socials.location && (
+          <Info>
+            <FiMapPin />
+            {socials.location}
+          </Info>
+        )}
+
+        {socials.work && (
+          <Info>
+            <FiBriefcase />
+            {socials.work}
+          </Info>
+        )}
+
+        {socials.github && (
+          <Info>
+            <FiGithub />
+            <a href={` https://github.com/${socials.github}`} target={"_blank"}>
+              {socials.github}
+            </a>
+          </Info>
+        )}
+
+        {socials.linkedin && (
+          <Info>
+            <FiLinkedin />
+            {socials.linkedin}
+          </Info>
+        )}
+
+        {socials.twitter && (
+          <Info>
+            <FiTwitter />
+            <a
+              href={`https://twitter.com/${socials.twitter}`}
+              target={"_blank"}
+            >
+              {`@${socials.twitter}`}
+            </a>
+          </Info>
+        )}
+
+        {socials.website && (
+          <Info>
+            <FiGlobe />
+            <a href={socials.website} target={"_blank"}>
+              {socials.website}
+            </a>
+          </Info>
+        )}
+
+        {socials.email && (
+          <Info>
+            <FiMail />
+            {socials.email}
+          </Info>
+        )}
       </IconContext.Provider>
     </>
   );
@@ -64,4 +93,12 @@ const Info = styled.li`
   font-size: 1.4rem;
   font-weight: 400;
   color: #837e9f;
+
+  a {
+    color: #837e9f;
+
+    :hover {
+      color: #6d6dbf;
+    }
+  }
 `;
