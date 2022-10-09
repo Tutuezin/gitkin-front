@@ -7,7 +7,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   return (
-    <>
+    <Section>
       <HeaderPage>
         <h1>GitKin</h1>
         <NavBar>
@@ -28,16 +28,21 @@ export default function Header() {
         </Hover>
       </HeaderPage>
       <Divider />
-    </>
+    </Section>
   );
 }
 
-const HeaderPage = styled.header`
+const Section = styled.section`
   position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 8.5rem;
+  width: 100%;
+  z-index: 1000;
+`;
+
+const HeaderPage = styled.header`
+  margin: 0 auto;
 
   font-family: "Poppins", sans-serif;
 
