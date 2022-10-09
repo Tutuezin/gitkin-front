@@ -1,78 +1,96 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
 import { FiPlus } from "react-icons/fi";
-import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Social from "./Infos";
 import AboutMe from "./About";
-import Technologies from "./Technologies";
+//import Technologies from "./Technologies";
 import Repository from "./Repository";
 import jwt from "jwt-decode";
 import axios from "axios";
 import * as homeUtils from "../../utils/homeUtils";
-
-import { Modal, Form, Input } from "antd";
+import { useParams } from "react-router-dom";
+import EditButton from "../../components/EditButton";
+import { useAuthContext } from "../../provider";
+import ProfileModal from "../../components/ProfileModal";
 
 export default function Portfolio() {
   //TODO usar o useRef para usar a barra de navegação
   // const test = useRef();
   const localToken = localStorage.getItem("token");
+  const [authentication, setAuthentication] = useState(false);
+  const { username } = useParams();
+  const [state, actions] = useAuthContext();
+  const {
+    name,
+    picture,
+    occupation,
+    memberSince,
+    aboutMe,
+    location,
+    work,
+    github,
+    linkedin,
+    twitter,
+    website,
+    email,
+    stringAvatar,
+  } = state;
 
-  const [picture, setPicture] = useState("");
-  const [name, setName] = useState("");
-  const [stringAvatar, setStringAvatar] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [memberSince, setMemberSince] = useState("");
-  const [aboutMe, setAboutMe] = useState("");
-  const [location, setLocation] = useState("");
-  const [work, setWork] = useState("");
-  const [github, setGithub] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [website, setWebsite] = useState("");
-  const [email, setEmail] = useState("");
+  console.log(name);
 
-  const { userName, id } = jwt(localToken);
-  const { confirm } = Modal;
-  const [form] = Form.useForm();
-
-  (async () => {
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:4000/${username}`);
+        const [{ email, github, linkedin, location, twitter, website, work }] =
+          data.socials;
+        const reduce = {
+          name: data.name,
+          picture: data.picture,
+          occupation: data.occupation,
+          memberSince: data.createdAt.substr(0, 4),
+          aboutMe: data.aboutMe,
+          location,
+          work,
+          github,
+          linkedin,
+          twitter,
+          website,
+          email,
+        };
+        actions.setAll(reduce);
+        homeUtils.splitString(data.name, actions.setName);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+    const localToken = localStorage.getItem("token");
     try {
-      const { data } = await axios.get(`http://localhost:4000/${userName}`);
-      setPicture(data.picture);
-      setName(data.name);
-      homeUtils.splitString(name, setStringAvatar);
-      setOccupation(data.occupation);
-      setMemberSince(data.createdAt.substr(0, 4));
-      setAboutMe(data.aboutMe);
-      setLocation(data.socials[0]?.location);
-      setWork(data.socials[0]?.work);
-      setGithub(data.socials[0]?.github);
-      setLinkedin(data.socials[0]?.linkedin);
-      setTwitter(data.socials[0]?.twitter);
-      setWebsite(data.socials[0]?.website);
-      setEmail(data.socials[0]?.email);
-    } catch (error) {
-      console.log(error);
-    }
-  })();
+      localToken && jwt(localToken);
+      setAuthentication(true);
+    } catch {}
+  }, []);
+
+  const setStates = (data) => {
+    console.log(data);
+    actions.setAll(data);
+    homeUtils.splitString(data.name, actions.setName);
+  };
 
   const editProfile = async (aboutMe) => {
     const newInfos = {
       aboutMe,
     };
 
-    console.log(newInfos);
-
     const config = {
       headers: {
         Authorization: `Bearer ${localToken}`,
       },
     };
-
     try {
-      await axios.put(`http://localhost:4000/${userName}`, newInfos, config);
+      await axios.put(`http://localhost:4000/${username}`, newInfos, config);
     } catch (error) {
       console.log(error.response);
     }
@@ -102,13 +120,13 @@ export default function Portfolio() {
       email: newSocials.email,
     };
 
-    console.log(socials);
-
     try {
-      await axios.put(`http://localhost:4000/${userName}`, profile, config);
+      const { id } = jwt(localToken);
+
+      await axios.put(`http://localhost:4000/${username}`, profile, config);
 
       await axios.put(
-        `http://localhost:4000/${userName}/${id}`,
+        `http://localhost:4000/${username}/${id}`,
         socials,
         config
       );
@@ -125,165 +143,52 @@ export default function Portfolio() {
         <ProfileInfos>
           <Profile>
             <Edit>
-              {/* //TODO transformar isso em um componente pelo amor de DEUS */}
-              <MdModeEdit
-                onClick={() => {
-                  confirm({
-                    icon: false,
-                    title: "Meu Perfil",
-                    onOk(_) {
-                      form.submit();
-                    },
-                    afterClose: () => form.resetFields(),
-                    maskClosable: true,
-                    content: (
-                      <Form
-                        form={form}
-                        className="form"
-                        layout="vertical"
-                        onFinish={(values) => {
-                          editSocials(values);
-                        }}
-                      >
-                        <section className="sectionInputs">
-                          <InputWrap>
-                            <Form.Item
-                              name="name"
-                              label="Seu Nome"
-                              initialValue={name}
-                              required={false}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Seu nome é obrigatório!",
-                                },
-                              ]}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                          <InputWrap>
-                            <Form.Item
-                              name="picture"
-                              label="Foto"
-                              initialValue={picture}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                        </section>
-
-                        <section className="sectionInputs">
-                          <InputWrap>
-                            <Form.Item
-                              name="occupation"
-                              label="Ocupação"
-                              initialValue={occupation}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                          <InputWrap>
-                            <Form.Item
-                              name="location"
-                              label="Localização"
-                              initialValue={location}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                        </section>
-
-                        <section className="sectionInputs">
-                          <InputWrap>
-                            <Form.Item
-                              name="work"
-                              label="Empresa"
-                              initialValue={work}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                          <InputWrap>
-                            <Form.Item
-                              name="github"
-                              label="GitHub"
-                              initialValue={github}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                        </section>
-
-                        <section className="sectionInputs">
-                          <InputWrap>
-                            <Form.Item
-                              name="linkedin"
-                              label="Linkedin"
-                              initialValue={linkedin}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                          <InputWrap>
-                            <Form.Item
-                              name="twitter"
-                              label="Twitter"
-                              initialValue={twitter}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                        </section>
-
-                        <section className="sectionInputs">
-                          <InputWrap>
-                            <Form.Item
-                              name="website"
-                              label="Website"
-                              initialValue={website}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                          <InputWrap>
-                            <Form.Item
-                              name="email"
-                              label="Email"
-                              initialValue={email}
-                            >
-                              <Input className="input" />
-                            </Form.Item>
-                          </InputWrap>
-                        </section>
-                      </Form>
-                    ),
-                  });
-                }}
-              />
+              <EditButton authentication={authentication}>
+                <ProfileModal
+                  {...state}
+                  editSocials={editSocials}
+                  setStates={setStates}
+                />
+              </EditButton>
             </Edit>
             <ProfilePicture>
               {picture ? (
                 <img width={175} height={175} src={picture} alt="" />
+              ) : name ? (
+                <Avatar>{stringAvatar}</Avatar>
               ) : (
-                <Avatar>{/* stringAvatar(localName) */ stringAvatar}</Avatar>
+                <Avatar></Avatar>
               )}
 
               <h2>{name}</h2>
-              <h3>{`@${userName}`}</h3>
+              <h3>{`@${username}`}</h3>
               <h4>{occupation}</h4>
             </ProfilePicture>
             <MemberSince>{`membro desde ${memberSince}`}</MemberSince>
           </Profile>
 
-          <Infos /* ref={test} */>
-            <Social />
+          <Infos>
+            <Social
+              socials={{
+                location,
+                work,
+                github,
+                linkedin,
+                twitter,
+                website,
+                email,
+              }}
+            />
           </Infos>
         </ProfileInfos>
 
         <Section>
-          <AboutMe aboutMe={aboutMe} editProfile={editProfile} />
-          <Technologies />
+          <AboutMe
+            aboutMe={aboutMe}
+            editProfile={editProfile}
+            authentication={authentication}
+          />
+          {/*  <Technologies authentication={authentication} /> */}
 
           <AddRepositories>
             <div>
@@ -297,7 +202,9 @@ export default function Portfolio() {
                   },
                 }}
               >
-                <FiPlus />
+                <EditButton authentication={authentication}>
+                  <FiPlus />
+                </EditButton>
               </IconContext.Provider>
             </div>
           </AddRepositories>
@@ -311,54 +218,17 @@ export default function Portfolio() {
   );
 }
 
-const InputWrap = styled.div`
-  label {
-    color: #fff;
-    font: 400 1.3rem "Merriweather Sans", sans-serif;
-  }
-  .ant-form-item-label {
-    padding-bottom: 0.5rem;
-  }
-
-  .input {
-    background-color: #22212c !important;
-    width: 30rem !important;
-    height: 5rem !important;
-    border-radius: 0.5rem !important;
-
-    color: #fff !important;
-    font: 400 1.6rem "Poppins", sans-serif !important;
-
-    input {
-      width: 32.7rem !important;
-      height: 5rem !important;
-      border: none !important;
-      background-color: #22212c !important;
-
-      font-family: "Poppins", sans-serif !important;
-      font-size: 1.6rem !important;
-      color: #fff !important;
-
-      &::placeholder {
-        font-family: "Poppins", sans-serif !important;
-        opacity: 1 !important;
-        color: #fff !important;
-        font-size: 1.6rem !important;
-        font-weight: 400 !important;
-      }
-    }
-    .ant-input-suffix svg path {
-      fill: #fff !important;
-    }
-  }
-  .ant-form-item {
-    margin: 0 !important;
-  }
-`;
-
 const Container = styled.div`
   display: flex;
   padding: 11.7rem 5rem 0 5rem;
+  max-width: 144rem;
+  margin: 0 auto;
+
+  /*  @media (max-width: 902px) {
+    flex-direction: column;
+    justify-content: center;
+    padding: 11.7rem 0 0 7rem;
+  } */
 `;
 
 const Section = styled.div`
@@ -377,7 +247,7 @@ const Profile = styled.div`
   flex-direction: column;
 
   min-width: 34.8rem;
-  height: 40rem;
+  height: 41rem;
   background-color: #302f3d;
   border-radius: 1rem;
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2);
