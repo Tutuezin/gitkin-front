@@ -38,7 +38,11 @@ export default function Social({ socials }) {
         {socials.github && (
           <Info>
             <FiGithub />
-            <a href={` https://github.com/${socials.github}`} target={"_blank"}>
+            <a
+              href={` https://github.com/${socials.github}`}
+              target={"_blank"}
+              rel={"noreferrer noopener"}
+            >
               {socials.github}
             </a>
           </Info>
@@ -57,6 +61,7 @@ export default function Social({ socials }) {
             <a
               href={`https://twitter.com/${socials.twitter}`}
               target={"_blank"}
+              rel={"noreferrer noopener"}
             >
               {`@${socials.twitter}`}
             </a>
@@ -66,7 +71,11 @@ export default function Social({ socials }) {
         {socials.website && (
           <Info>
             <FiGlobe />
-            <a href={socials.website} target={"_blank"}>
+            <a
+              href={socials.website}
+              target={"_blank"}
+              rel={"noreferrer noopener"}
+            >
               {socials.website}
             </a>
           </Info>
