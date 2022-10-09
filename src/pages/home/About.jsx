@@ -55,7 +55,7 @@ export default function AboutMe({ aboutMe, editProfile, authentication }) {
           placeholder={aboutMe}
         />
         <EditButton authentication={authentication}>
-          <span>{counter}</span>
+          {!edit && <span>{counter}</span>}
         </EditButton>
       </About>
     </>

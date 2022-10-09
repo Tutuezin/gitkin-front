@@ -51,7 +51,13 @@ export default function Social({ socials }) {
         {socials.linkedin && (
           <Info>
             <FiLinkedin />
-            {socials.linkedin}
+            <a
+              href={`https://www.linkedin.com/in/${socials.linkedin}`}
+              target={"_blank"}
+              rel={"noreferrer noopener"}
+            >
+              {socials.linkedin}
+            </a>
           </Info>
         )}
 

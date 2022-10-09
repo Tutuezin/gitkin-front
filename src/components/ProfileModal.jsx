@@ -36,7 +36,6 @@ export default function ProfileModal({
               className="form"
               layout="vertical"
               onFinish={(values) => {
-                console.log(values);
                 editSocials(values);
                 setStates(values);
                 Modal.destroyAll();
