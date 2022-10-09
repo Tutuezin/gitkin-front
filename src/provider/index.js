@@ -16,7 +16,7 @@ const initialState = {
   website: "",
   email: "",
   stringAvatar: "",
-  repositories: "",
+  repositories: [],
 };
 
 const Context = createContext(null); //TODO Pesquisar como tipar este createContext

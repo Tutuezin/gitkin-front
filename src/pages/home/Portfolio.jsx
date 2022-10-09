@@ -8,12 +8,15 @@ import AboutMe from "./About";
 //import Technologies from "./Technologies";
 import Repository from "./Repository";
 import jwt from "jwt-decode";
-import axios from "axios";
 import * as homeUtils from "../../utils/homeUtils";
 import { useParams } from "react-router-dom";
 import EditButton from "../../components/EditButton";
 import { useAuthContext } from "../../provider";
 import ProfileModal from "../../components/ProfileModal";
+import jwtDecode from "jwt-decode";
+import { Modal, Form, Input } from "antd";
+import isUrl from "is-url";
+import API from "../../utils/api";
 
 export default function Portfolio() {
   //TODO usar o useRef para usar a barra de navegação
@@ -39,28 +42,51 @@ export default function Portfolio() {
     repositories,
   } = state;
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localToken}`,
+    },
+  };
+
   // GET ALL INFOS
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/${username}`);
-        const [{ email, github, linkedin, location, twitter, website, work }] =
-          data.socials;
-        const reduce = {
+        const { data } = await API.get(`/${username}`);
+
+        const [socials] = data.socials;
+
+        let reduce = {
           name: data.name,
           picture: data.picture,
           occupation: data.occupation,
           memberSince: data.createdAt.substr(0, 4),
           aboutMe: data.aboutMe,
-          location,
-          work,
-          github,
-          linkedin,
-          twitter,
-          website,
-          email,
+          email: "",
+          github: "",
+          linkedin: "",
+          location: "",
+          twitter: "",
+          website: "",
+          work: "",
           repositories: data.repositories,
         };
+        if (socials) {
+          const { email, github, linkedin, location, twitter, website, work } =
+            socials;
+
+          reduce = {
+            ...reduce,
+            email,
+            github,
+            linkedin,
+            location,
+            twitter,
+            website,
+            work,
+          };
+        }
+
         actions.setAll(reduce);
         homeUtils.splitString(data.name, actions.setName);
       } catch (error) {
@@ -68,11 +94,16 @@ export default function Portfolio() {
       }
     })();
     const localToken = localStorage.getItem("token");
+
     try {
-      localToken && jwt(localToken);
-      setAuthentication(true);
+      if (!localToken === null || !localToken === "" || jwt(localToken)) {
+        const decodeUser = jwtDecode(localToken);
+        if (decodeUser.userName === username) {
+          setAuthentication(true);
+        }
+      }
     } catch {}
-  }, []);
+  }, [actions, username]);
 
   const setStates = (data) => {
     actions.setAll(data);
@@ -84,13 +115,8 @@ export default function Portfolio() {
       aboutMe,
     };
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localToken}`,
-      },
-    };
     try {
-      await axios.put(`http://localhost:4000/${username}`, newInfos, config);
+      await API.put(`/${username}`, newInfos, config);
     } catch (error) {
       console.log(error.response);
     }
@@ -98,12 +124,6 @@ export default function Portfolio() {
 
   //TODO refatorar em outro componente
   const editSocials = async (newSocials) => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localToken}`,
-      },
-    };
-
     const profile = {
       name: newSocials.name,
       picture: newSocials.picture,
@@ -123,16 +143,40 @@ export default function Portfolio() {
     try {
       const { id } = jwt(localToken);
 
-      await axios.put(`http://localhost:4000/${username}`, profile, config);
+      await API.put(`/${username}`, profile, config);
 
-      await axios.put(
-        `http://localhost:4000/${username}/${id}`,
-        socials,
-        config
-      );
+      await API.put(`/${username}/${id}`, socials, config);
     } catch (error) {
       console.log(error.response);
     }
+  };
+
+  const [form] = Form.useForm();
+  const { confirm } = Modal;
+
+  const insertRepositories = async (values) => {
+    try {
+      const { id } = jwt(localToken);
+
+      const { data } = await API.post(
+        `/${username}/repository/${id}`,
+        values,
+        config
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteRepositories = async (test) => {
+    console.log(test);
+    try {
+      /*   const { data } = await API.post(
+        `/${username}/repository/${id}`,
+        values,
+        config
+      ); */
+    } catch (error) {}
   };
 
   return (
@@ -142,7 +186,7 @@ export default function Portfolio() {
       <Container>
         <ProfileInfos>
           <Profile>
-            <Edit>
+            <Edit authentication={authentication}>
               <EditButton authentication={authentication}>
                 <ProfileModal
                   {...state}
@@ -203,17 +247,103 @@ export default function Portfolio() {
                 }}
               >
                 <EditButton authentication={authentication}>
-                  <FiPlus />
+                  //TODO REFATORAR
+                  <FiPlus
+                    onClick={() => {
+                      confirm({
+                        icon: false,
+                        title: "Novo Repositório",
+                        onOk(_) {
+                          form.submit();
+                        },
+                        maskClosable: true,
+                        content: (
+                          <Form
+                            form={form}
+                            className="form"
+                            layout="vertical"
+                            onFinish={(values) => {
+                              insertRepositories(values);
+                              setStates(values);
+                              Modal.destroyAll();
+                            }}
+                          >
+                            <section className="sectionInputs">
+                              <InputWrap>
+                                <Form.Item
+                                  name="repositoryName"
+                                  label="Nome do repositório"
+                                  required={false}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message:
+                                        "Nome do repositório é obrigatório!",
+                                    },
+                                  ]}
+                                >
+                                  <Input className="input" />
+                                </Form.Item>
+                              </InputWrap>
+                              <InputWrap>
+                                <Form.Item
+                                  validateFirst
+                                  name="url"
+                                  label="Url"
+                                  required={false}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message:
+                                        "Url do repositório é obrigatório!",
+                                    },
+                                    {
+                                      validator(_, value) {
+                                        if (isUrl(value))
+                                          return Promise.resolve();
+                                        return Promise.reject(
+                                          "Formato url errado!"
+                                        );
+                                      },
+                                    },
+                                  ]}
+                                >
+                                  <Input className="input" />
+                                </Form.Item>
+                              </InputWrap>
+                              <InputWrap className="description">
+                                <Form.Item
+                                  name="description"
+                                  label="Descrição"
+                                  required={false}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message:
+                                        "Descrição do repositório é obrigatória!",
+                                    },
+                                  ]}
+                                >
+                                  <Input className="input" />
+                                </Form.Item>
+                              </InputWrap>
+                            </section>
+                          </Form>
+                        ),
+                      });
+                    }}
+                  />
                 </EditButton>
               </IconContext.Provider>
             </div>
           </AddRepositories>
           <Repositories>
             {repositories &&
-              repositories.map((item, index) => {
+              repositories?.map((item, index) => {
                 return (
                   <Repository
                     key={index}
+                    repositoryId={item.id}
                     repositoryName={item.repositoryName}
                     description={item.description}
                     url={item.url}
@@ -279,8 +409,7 @@ const Avatar = styled.div`
 `;
 
 const Edit = styled.div`
-  cursor: pointer;
-
+  cursor: ${({ authentication }) => (authentication ? "pointer" : "initial")};
   display: flex;
   justify-content: flex-end;
   width: 100%;
@@ -322,6 +451,7 @@ const ProfilePicture = styled.div`
     font-size: 1.5rem;
     font-weight: 400;
     color: #b6b2c989;
+    height: 2rem;
   }
 `;
 
@@ -382,4 +512,49 @@ const Repositories = styled.div`
   justify-content: space-around;
   gap: 4.5rem;
   width: 100%;
+`;
+
+const InputWrap = styled.div`
+  label {
+    color: #fff;
+    font: 400 1.3rem "Merriweather Sans", sans-serif;
+  }
+  .ant-form-item-label {
+    padding-bottom: 0.5rem;
+  }
+
+  .input {
+    background-color: #22212c !important;
+    width: 30rem !important;
+    height: 5rem !important;
+    border-radius: 0.5rem !important;
+
+    color: #fff !important;
+    font: 400 1.6rem "Poppins", sans-serif !important;
+
+    input {
+      width: 32.7rem !important;
+      height: 5rem !important;
+      border: none !important;
+      background-color: #22212c !important;
+
+      font-family: "Poppins", sans-serif !important;
+      font-size: 1.6rem !important;
+      color: #fff !important;
+
+      &::placeholder {
+        font-family: "Poppins", sans-serif !important;
+        opacity: 1 !important;
+        color: #fff !important;
+        font-size: 1.6rem !important;
+        font-weight: 400 !important;
+      }
+    }
+    .ant-input-suffix svg path {
+      fill: #fff !important;
+    }
+  }
+  .ant-form-item {
+    margin: 0 !important;
+  }
 `;

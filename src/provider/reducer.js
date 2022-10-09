@@ -6,5 +6,12 @@ export const reducer = (state, action) => {
       return { ...state, ...action.payload };
     case actionTypes.SET_NAME:
       return { ...state, stringAvatar: action.payload };
+    case actionTypes.ADD_REPO:
+      return {
+        ...state,
+        repositories: [...state.repositories, action.payload],
+      };
+    default:
+      return state;
   }
 };

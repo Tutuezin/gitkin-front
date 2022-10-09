@@ -1,27 +1,41 @@
 import styled from "styled-components";
-import { FiFolder } from "react-icons/fi";
+import { FiFolder, FiTrash } from "react-icons/fi";
 
 import { IconContext } from "react-icons";
 
-export default function Repository({ repositoryName, description, url }) {
+export default function Repository({
+  repositoryName,
+  description,
+  url,
+  repositoryId,
+  deleteRepositories,
+  authentication,
+}) {
   return (
     <>
       <Repo>
         <div>
-          <IconContext.Provider
-            value={{
-              style: {
-                cursor: "pointer",
-                color: "#837e9f",
-                fontSize: "2rem",
-              },
-            }}
-          >
-            <FiFolder />
-          </IconContext.Provider>
-          <a href={url} target={"_blank"} rel={"noreferrer noopener"}>
-            {repositoryName}
-          </a>
+          <section>
+            <IconContext.Provider
+              value={{
+                style: {
+                  cursor: "pointer",
+                  color: "#837e9f",
+                  fontSize: "2rem",
+                },
+              }}
+            >
+              <FiFolder />
+            </IconContext.Provider>
+            <a href={url} target={"_blank"} rel={"noreferrer noopener"}>
+              {repositoryName}
+            </a>
+          </section>
+
+          <FiTrash
+            onClick={() => deleteRepositories(repositoryId)}
+            className="trash"
+          />
         </div>
         <p>{description}</p>
         {/* 225 caracteres */}
@@ -53,6 +67,18 @@ const Repo = styled.div`
   }
 
   div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .trash {
+      cursor: pointer;
+      color: #837e9f;
+      font-size: 2rem;
+    }
+  }
+
+  section {
     cursor: pointer;
     display: flex;
     align-items: center;

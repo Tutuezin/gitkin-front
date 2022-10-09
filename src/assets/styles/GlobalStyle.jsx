@@ -133,9 +133,18 @@ body {
 
     .sectionInputs {
       display: flex;
+      flex-wrap: wrap ;
       justify-content: space-evenly;
       width: 80rem;
       margin-bottom: 1rem;
+
+      .description {
+        align-self: flex-start;
+        margin-right: auto;
+        margin-left: 6.7rem;
+        margin-top: 1rem;
+       
+      }
     }
     .ant-btn-primary {
     font: 400 1.3rem "Merriweather Sans", sans-serif ;
@@ -162,10 +171,12 @@ body {
   }
 
   .ant-divider {
-   position: absolute;
-   top: 8.5rem;
-    margin: 0;
-    background-color: #837e9f;
+    position: absolute;
+   bottom: 0;
+   width: 100%;
+   margin: 0;
+   z-index: 2;
+   background-color: #837e9f;
   }
 }
 ol,
