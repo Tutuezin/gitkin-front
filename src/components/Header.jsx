@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { BiLogOutCircle } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { Divider } from "antd";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function Header() {
         <h1>GitKin</h1>
         <NavBar>
           <h3>Home</h3>
-          <h3>Tecnologias</h3>
+          {/*  <h3>Tecnologias</h3> */}
           <h3>Projetos</h3>
         </NavBar>
 
@@ -26,6 +27,7 @@ export default function Header() {
           />
         </Hover>
       </HeaderPage>
+      <Divider />
     </>
   );
 }
@@ -33,7 +35,8 @@ export default function Header() {
 const HeaderPage = styled.header`
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1;
 
   font-family: "Poppins", sans-serif;
@@ -43,9 +46,10 @@ const HeaderPage = styled.header`
   justify-content: space-between;
 
   width: 100%;
+  max-width: 144rem;
+  margin: 0 auto;
   height: 8.5rem;
   background-color: #22212c;
-  border-bottom: 0.1rem solid #837e9f;
   padding: 0 10rem;
 
   h1 {

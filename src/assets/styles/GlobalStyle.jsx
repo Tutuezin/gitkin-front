@@ -114,6 +114,10 @@ body {
 
   }
 
+  .ant-modal {
+    width: max-content !important;
+  }
+
    .ant-modal-content {
     background-color:#302f3d ;
     width: 80rem;
@@ -155,6 +159,13 @@ body {
       color: #fff ;
 
     }
+  }
+
+  .ant-divider {
+   position: absolute;
+   top: 8.5rem;
+    margin: 0;
+    background-color: #837e9f;
   }
 }
 ol,
