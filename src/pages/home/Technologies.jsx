@@ -2,8 +2,9 @@ import styled from "styled-components";
 import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useState } from "react";
+import EditButton from "../../components/EditButton";
 
-export default function Technologies() {
+export default function Technologies({ authentication }) {
   const [edit, setEdit] = useState(false);
 
   return (
@@ -20,16 +21,17 @@ export default function Technologies() {
               },
             }}
           >
-            <MdModeEdit
-              onClick={() => {
-                //TODO fazer algo para edicao das tecnologias
-                setEdit(edit === true ? false : true);
-              }}
-            />
+            <EditButton authentication={authentication}>
+              <MdModeEdit
+                onClick={() => {
+                  //TODO fazer algo para edicao das tecnologias
+                  setEdit(edit === true ? false : true);
+                }}
+              />
+            </EditButton>
           </IconContext.Provider>
         </div>
       </Techs>
-      ;
     </>
   );
 }
