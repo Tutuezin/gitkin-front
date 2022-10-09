@@ -2,10 +2,16 @@ import styled from "styled-components";
 import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useState } from "react";
+import EditButton from "../../components/EditButton";
 
-export default function AboutMe({ aboutMe, editProfile }) {
+export default function AboutMe({ aboutMe, editProfile, authentication }) {
   const [edit, setEdit] = useState(true);
   const [input, setInput] = useState("");
+  const [counter, setCounter] = useState(400);
+
+  const func = (valor) => {
+    setCounter(400 - valor);
+  };
 
   return (
     <>
@@ -21,17 +27,22 @@ export default function AboutMe({ aboutMe, editProfile }) {
               },
             }}
           >
-            <MdModeEdit
-              onClick={() => {
-                setEdit(edit === true ? false : true);
-              }}
-            />
+            <EditButton authentication={authentication}>
+              <MdModeEdit
+                onClick={() => {
+                  setEdit(edit === true ? false : true);
+                }}
+              />
+            </EditButton>
           </IconContext.Provider>
         </div>
+
         <Input
           value={input}
-          onChange={(e) => setInput(e.target.value)}
-          //TODO fazer um contador de caracteres descendo
+          onChange={(e) => {
+            setInput(e.target.value);
+            func(e.target.textLength);
+          }}
           maxLength="400"
           onKeyDown={(event) => {
             if (event.key === "Enter") {
@@ -43,13 +54,17 @@ export default function AboutMe({ aboutMe, editProfile }) {
           disabled={edit}
           placeholder={aboutMe}
         />
+        <EditButton authentication={authentication}>
+          <span>{counter}</span>
+        </EditButton>
       </About>
     </>
   );
 }
 
 const About = styled.div`
-  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 16rem;
   background-color: #302f3d;
@@ -66,6 +81,13 @@ const About = styled.div`
   div {
     display: flex;
     justify-content: space-between;
+  }
+  span {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 1.4rem;
+
+    color: #b6b2c989;
   }
 `;
 
