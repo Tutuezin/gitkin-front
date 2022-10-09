@@ -36,10 +36,10 @@ export default function Portfolio() {
     website,
     email,
     stringAvatar,
+    repositories,
   } = state;
 
-  console.log(name);
-
+  // GET ALL INFOS
   useEffect(() => {
     (async () => {
       try {
@@ -59,6 +59,7 @@ export default function Portfolio() {
           twitter,
           website,
           email,
+          repositories: data.repositories,
         };
         actions.setAll(reduce);
         homeUtils.splitString(data.name, actions.setName);
@@ -74,7 +75,6 @@ export default function Portfolio() {
   }, []);
 
   const setStates = (data) => {
-    console.log(data);
     actions.setAll(data);
     homeUtils.splitString(data.name, actions.setName);
   };
@@ -209,8 +209,17 @@ export default function Portfolio() {
             </div>
           </AddRepositories>
           <Repositories>
-            <Repository />
-            <Repository />
+            {repositories &&
+              repositories.map((item, index) => {
+                return (
+                  <Repository
+                    key={index}
+                    repositoryName={item.repositoryName}
+                    description={item.description}
+                    url={item.url}
+                  />
+                );
+              })}
           </Repositories>
         </Section>
       </Container>

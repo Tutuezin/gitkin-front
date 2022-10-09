@@ -3,7 +3,7 @@ import { FiFolder } from "react-icons/fi";
 
 import { IconContext } from "react-icons";
 
-export default function Repository() {
+export default function Repository({ repositoryName, description, url }) {
   return (
     <>
       <Repo>
@@ -19,14 +19,12 @@ export default function Repository() {
           >
             <FiFolder />
           </IconContext.Provider>
-          ReporeporeporepoReporepo
+          <a href={url} target={"_blank"} rel={"noreferrer noopener"}>
+            {repositoryName}
+          </a>
         </div>
-        <p>
-          desc desc desc desc desc desc desc desc desc desc desc desc desc desc
-          desc desc desc desc desc desc desc desc desc descdesc desc desc desc
-          desc desc desc desc desc desc desc descdesc desc desc
-          {/* 225 caracteres */}
-        </p>
+        <p>{description}</p>
+        {/* 225 caracteres */}
       </Repo>
     </>
   );
@@ -46,6 +44,14 @@ const Repo = styled.div`
   font-weight: 700;
   color: #837e9f;
 
+  a {
+    color: #837e9f;
+
+    :hover {
+      color: #6d6dbf;
+    }
+  }
+
   div {
     cursor: pointer;
     display: flex;
@@ -55,5 +61,7 @@ const Repo = styled.div`
 
   p {
     margin-top: 2rem;
+    font-size: 1.5rem;
+    font-weight: 400;
   }
 `;
