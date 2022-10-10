@@ -11,6 +11,13 @@ export const reducer = (state, action) => {
         ...state,
         repositories: [...state.repositories, action.payload],
       };
+    case actionTypes.DEL_REPO:
+      return {
+        ...state,
+        repositories: state.repositories.filter(
+          ({ id }) => id !== action.payload
+        ),
+      };
     default:
       return state;
   }
