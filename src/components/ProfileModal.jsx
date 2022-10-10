@@ -26,6 +26,8 @@ export default function ProfileModal({
         confirm({
           icon: false,
           title: "Meu Perfil",
+          okText: "Confirmar",
+          cancelText: "Cancelar",
           onOk(_) {
             form.submit();
           },
