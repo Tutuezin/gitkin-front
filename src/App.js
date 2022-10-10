@@ -3,9 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
-import Portfolio from "./pages/home/Portfolio";
+import Portfolio from "./pages/portifolio/Portfolio";
 import { useState } from "react";
 import { AuthProvider } from "./provider";
+import Home from "./pages/home";
 
 function App() {
   const [token, setToken] = useState("");
@@ -20,7 +21,7 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={""}></Route>
+              <Route path="/" element={<Home />}></Route>
               <Route path="/signin" element={<Login />}></Route>
               <Route path="/signup" element={<Register />}></Route>
               <Route path="/:username" element={<Portfolio />}></Route>
