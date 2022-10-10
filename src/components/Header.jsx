@@ -11,7 +11,7 @@ export default function Header() {
       <HeaderPage>
         <h1>GitKin</h1>
         <NavBar>
-          <h3>Home</h3>
+          <h3 onClick={() => navigate("/")}>Home</h3>
           {/*  <h3>Tecnologias</h3> */}
           <h3>Projetos</h3>
         </NavBar>

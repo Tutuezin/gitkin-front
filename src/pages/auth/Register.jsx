@@ -1,5 +1,4 @@
 import { Form, Input } from "antd";
-import axios from "axios";
 import validator from "email-validator";
 import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
@@ -214,7 +213,7 @@ export default function Register() {
           <h1>GitKin</h1>
           <h2>A solução perfeita para a criação do seu portifólio.</h2>
           <h3>
-            Junte-se a essa família de devs, faça seus portifólio e nos mostre a
+            Junte-se a essa família de devs, faça seu portifólio e nos mostre a
             direção dos seus objetivos!
           </h3>
           <p onClick={() => navigate("/signin")}>
