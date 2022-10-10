@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { BiLogOutCircle } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "antd";
+import logo from "../assets/images/logo.png";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -9,7 +10,10 @@ export default function Header() {
   return (
     <Section>
       <HeaderPage>
-        <h1>GitKin</h1>
+        <div>
+          <img src={logo} height={50} width={60} alt="" />
+          <h1>GitKin</h1>
+        </div>
         <NavBar>
           <h3 onClick={() => navigate("/")}>Home</h3>
           {/*  <h3>Tecnologias</h3> */}
@@ -56,6 +60,11 @@ const HeaderPage = styled.header`
   height: 8.5rem;
   background-color: #22212c;
   padding: 0 10rem;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
 
   h1 {
     font-size: 4rem;

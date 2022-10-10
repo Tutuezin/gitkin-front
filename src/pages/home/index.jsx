@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FiUser, FiArrowRight } from "react-icons/fi";
 import home from "../../assets/images/home.png";
+import logo from "../../assets/images/logo.png";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -11,7 +12,10 @@ export default function Home() {
     <>
       <Head>
         <Header>
-          <h1>GitKin</h1>
+          <div>
+            <img src={logo} height={50} width={60} alt="" />
+            <h1>GitKin</h1>
+          </div>
           <NavBar>
             <Button className="login" onClick={() => navigate("/signin")}>
               <FiUser />
@@ -116,6 +120,13 @@ const Header = styled.header`
   background-color: #22212c;
   padding-left: 5rem;
   padding: 0 10rem;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   h1 {
     font-size: 4rem;
     font-weight: 400;
