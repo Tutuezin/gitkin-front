@@ -261,6 +261,7 @@ export default function Portfolio() {
                         onOk(_) {
                           form.submit();
                         },
+                        afterClose: () => form.resetFields(),
                         maskClosable: true,
                         content: (
                           <Form
