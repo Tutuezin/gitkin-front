@@ -52,7 +52,7 @@ export default function Social({ socials }) {
           <Info>
             <FiLinkedin />
             <a
-              href={`https://www.linkedin.com/in/${socials.linkedin}`}
+              href={`${socials.linkedin}`}
               target={"_blank"}
               rel={"noreferrer noopener"}
             >
