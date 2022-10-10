@@ -107,6 +107,8 @@ body {
   line-height: 1;
   background-color: #22212C;
 
+ 
+
   .ant-form {
     display: flex;
     align-items: center;
@@ -116,6 +118,42 @@ body {
 
   .ant-modal {
     width: max-content !important;
+
+    &.deleteRepo .ant-modal-content  {
+      width: 40rem !important;
+
+      p {
+      font: 400 1.3rem "Merriweather Sans", sans-serif ;
+       color: #b6b2c989;
+      }
+       .ant-btn-primary {
+    font: 700 1.3rem "Merriweather Sans", sans-serif ;
+    background-color: rgb(244, 33, 46);
+    border-color: rgb(244, 33, 46);
+    }
+    .ant-btn-primary:hover {
+      background-color: #302f3d;
+      border-radius: 0.1rem !important;
+      border-color:rgb(244, 33, 46);
+      color: rgb(244, 33, 46) ;
+
+    }
+     .ant-btn-default {
+    font: 700 1.3rem "Merriweather Sans", sans-serif ;
+    }
+    .ant-btn-default:hover {
+      background-color: #302f3d;
+      border-color:#fff;
+      color: #fff ;
+
+    }
+    } 
+
+     &.deleteRepo .ant-modal-confirm-title {
+      font-size: 2.3rem !important;
+
+     }
+     
   }
 
    .ant-modal-content {
@@ -147,7 +185,7 @@ body {
       }
     }
     .ant-btn-primary {
-    font: 400 1.3rem "Merriweather Sans", sans-serif ;
+    font: 700 1.3rem "Merriweather Sans", sans-serif ;
     background-color: #302f3d;
     border-color: #fff;
     }
@@ -160,7 +198,7 @@ body {
     }
 
       .ant-btn-default {
-    font: 400 1.3rem "Merriweather Sans", sans-serif ;
+    font: 700 1.3rem "Merriweather Sans", sans-serif ;
     }
     .ant-btn-default:hover {
       background-color: #302f3d;

@@ -122,7 +122,6 @@ export default function Portfolio() {
     }
   };
 
-  //TODO refatorar em outro componente
   const editSocials = async (newSocials) => {
     const profile = {
       name: newSocials.name,
@@ -151,6 +150,7 @@ export default function Portfolio() {
     }
   };
 
+  //TODO REFATORAR
   const [form] = Form.useForm();
   const { confirm } = Modal;
 
@@ -163,19 +163,22 @@ export default function Portfolio() {
         values,
         config
       );
+
+      actions.addRepo(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const deleteRepositories = async (test) => {
-    console.log(test);
+  const deleteRepositories = async (repoId) => {
+    const { id } = jwt(localToken);
+
     try {
-      /*   const { data } = await API.post(
-        `/${username}/repository/${id}`,
-        values,
+      const { data } = await API.delete(
+        `/${username}/repository/${id}/${repoId}`,
         config
-      ); */
+      );
+      console.log(data);
     } catch (error) {}
   };
 
@@ -247,12 +250,14 @@ export default function Portfolio() {
                 }}
               >
                 <EditButton authentication={authentication}>
-                  //TODO REFATORAR
+                  {/* //TODO REFATORAR */}
                   <FiPlus
                     onClick={() => {
                       confirm({
                         icon: false,
                         title: "Novo Repositório",
+                        okText: "Confirmar",
+                        cancelText: "Cancelar",
                         onOk(_) {
                           form.submit();
                         },
@@ -313,6 +318,7 @@ export default function Portfolio() {
                               </InputWrap>
                               <InputWrap className="description">
                                 <Form.Item
+                                  validateFirst
                                   name="description"
                                   label="Descrição"
                                   required={false}
@@ -321,6 +327,15 @@ export default function Portfolio() {
                                       required: true,
                                       message:
                                         "Descrição do repositório é obrigatória!",
+                                    },
+                                    {
+                                      validator(_, value) {
+                                        if (value.length > 255)
+                                          return Promise.reject(
+                                            "Limite de caracteres atingido!"
+                                          );
+                                        return Promise.resolve();
+                                      },
                                     },
                                   ]}
                                 >
@@ -347,6 +362,8 @@ export default function Portfolio() {
                     repositoryName={item.repositoryName}
                     description={item.description}
                     url={item.url}
+                    deleteRepositories={deleteRepositories}
+                    authentication={authentication}
                   />
                 );
               })}

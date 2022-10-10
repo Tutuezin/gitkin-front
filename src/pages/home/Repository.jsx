@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { FiFolder, FiTrash } from "react-icons/fi";
-
+import { Modal } from "antd";
 import { IconContext } from "react-icons";
+import { useAuthContext } from "../../provider";
 
 export default function Repository({
   repositoryName,
@@ -11,6 +12,9 @@ export default function Repository({
   deleteRepositories,
   authentication,
 }) {
+  const { confirm } = Modal;
+  const [state, actions] = useAuthContext();
+
   return (
     <>
       <Repo>
@@ -32,13 +36,34 @@ export default function Repository({
             </a>
           </section>
 
-          <FiTrash
-            onClick={() => deleteRepositories(repositoryId)}
-            className="trash"
-          />
+          {authentication && (
+            <FiTrash
+              onClick={() => {
+                confirm({
+                  className: "deleteRepo",
+                  title: "Excluir repositório ? ",
+                  content: (
+                    <p>
+                      Essa ação não poderá ser desfeita, e ele será removido do
+                      seu perfil.
+                    </p>
+                  ),
+                  icon: false,
+                  okText: "Excluir",
+                  cancelText: "Cancelar",
+                  centered: true,
+                  onOk(_) {
+                    deleteRepositories(repositoryId);
+                    actions.delRepo(repositoryId);
+                    Modal.destroyAll();
+                  },
+                });
+              }}
+              className="trash"
+            />
+          )}
         </div>
         <p>{description}</p>
-        {/* 225 caracteres */}
       </Repo>
     </>
   );
