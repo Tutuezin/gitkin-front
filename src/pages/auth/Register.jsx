@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { Button, InputWrap } from "../../components/authComponents";
+import API from "../../utils/api";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function Register() {
       password: values.password,
     };
     try {
-      await axios.post("http://localhost:4000/signup", body);
+      await API.post("/signup", body);
       setDisable(true);
       setLoader(<ThreeDots color="white" />);
       navigate("/signin");

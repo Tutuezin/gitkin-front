@@ -5,9 +5,9 @@ import { InputWrap, Button } from "../../components/authComponents";
 import validator from "email-validator";
 import { toast, ToastContainer } from "react-toastify";
 import { useContext, useState } from "react";
-import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 import UserContext from "../../contexts/UserContext";
+import API from "../../utils/api";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function Register() {
     };
 
     try {
-      const { data } = await axios.post("http://localhost:4000/signin", body);
+      const { data } = await API.post("/signin", body);
       setToken(data.token);
       localStorage.setItem("token", data.token);
       setUserName(data.body.userName);
@@ -34,7 +34,6 @@ export default function Register() {
 
       navigate(`/${data.body.userName}`);
     } catch (error) {
-      console.log(error);
       if (error.response.status === 401) notify();
       setDisable(false);
       setLoader("Entrar");
