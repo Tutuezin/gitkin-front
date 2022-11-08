@@ -8,6 +8,8 @@ import { useContext, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import UserContext from "../../contexts/UserContext";
 import API from "../../utils/api";
+import { FiArrowLeft } from "react-icons/fi";
+import { IconContext } from "react-icons";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -56,6 +58,17 @@ export default function Login() {
     <>
       <Container>
         <ConnectPlatform>
+          <IconContext.Provider
+            value={{
+              style: {
+                cursor: "pointer",
+                color: "#fff",
+                fontSize: "3rem",
+              },
+            }}
+          >
+            <FiArrowLeft onClick={() => navigate("/")} />
+          </IconContext.Provider>
           <h1>GitKin</h1>
           <h2>Faça seu login na plataforma</h2>
         </ConnectPlatform>
@@ -184,12 +197,12 @@ export const AuthInputs = styled.div`
 
 export const ConnectPlatform = styled.div`
   width: 48rem;
+  margin-top: 30rem;
 
   h1 {
     font-family: "Poppins", sans-serif;
-    margin-top: 34.3rem;
     margin-bottom: 3.9rem;
-
+    margin-top: 2rem;
     font-weight: 400;
     font-size: 5rem;
     color: #fff;
