@@ -9,7 +9,7 @@ import { ThreeDots } from "react-loader-spinner";
 import UserContext from "../../contexts/UserContext";
 import API from "../../utils/api";
 
-export default function Register() {
+export default function Login() {
   const navigate = useNavigate();
   const { setToken, setUserName } = useContext(UserContext);
 
@@ -23,15 +23,14 @@ export default function Register() {
       password: values.password,
     };
 
+    setDisable(true);
+    setLoader(<ThreeDots color="white" />);
+
     try {
       const { data } = await API.post("/signin", body);
       setToken(data.token);
       localStorage.setItem("token", data.token);
       setUserName(data.body.userName);
-
-      setDisable(true);
-      setLoader(<ThreeDots color="white" />);
-
       navigate(`/${data.body.userName}`);
     } catch (error) {
       if (error.response.status === 401) notify();

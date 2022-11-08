@@ -22,10 +22,12 @@ export default function Register() {
       userName: values.userName.toLowerCase(),
       password: values.password,
     };
+
+    setDisable(true);
+    setLoader(<ThreeDots color="white" />);
+
     try {
       await API.post("/signup", body);
-      setDisable(true);
-      setLoader(<ThreeDots color="white" />);
       navigate("/signin");
     } catch (error) {
       if (error.response.status === 409) notify();
