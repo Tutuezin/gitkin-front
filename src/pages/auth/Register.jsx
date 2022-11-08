@@ -203,8 +203,23 @@ export default function Register() {
               </Form.Item>
             </InputWrap>
             <p>
-              Ao se registrar, você aceita nossos <span>termos de uso</span> e a
-              nossa <span>política de privacidade</span>.
+              Ao se registrar, você aceita nossos{" "}
+              <a
+                href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ%22%7D"}
+                target={"_blank"}
+                rel={"noreferrer noopener"}
+              >
+                termos de uso
+              </a>{" "}
+              e a nossa{" "}
+              <a
+                href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ%22%7D"}
+                target={"_blank"}
+                rel={"noreferrer noopener"}
+              >
+                política de privacidade
+              </a>
+              .
             </p>
             <Button disabled={disable} type="submit">
               {loader}
@@ -267,8 +282,12 @@ export const AuthInputs = styled.div`
     font-size: 1.5rem;
     color: #fff;
   }
-  span {
+  a {
     color: #837e9f;
+
+    :hover {
+      color: #fff;
+    }
   }
 `;
 
