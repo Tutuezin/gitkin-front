@@ -174,11 +174,7 @@ export default function Portfolio() {
     const { id } = jwt(localToken);
 
     try {
-      const { data } = await API.delete(
-        `/${username}/repository/${id}/${repoId}`,
-        config
-      );
-      console.log(data);
+      await API.delete(`/${username}/repository/${id}/${repoId}`, config);
     } catch (error) {}
   };
 
