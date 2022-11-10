@@ -61,8 +61,30 @@ export default function ProfileModal({
                   </Form.Item>
                 </InputWrap>
                 <InputWrap>
-                  <Form.Item name="picture" label="Foto" initialValue={picture}>
-                    <Input className="input" />
+                  <Form.Item
+                    name="picture"
+                    label="Foto"
+                    initialValue={picture}
+                    validateFirst
+                    rules={[
+                      {
+                        validator: (_, value) => {
+                          if (
+                            !value.match(
+                              /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/
+                            )
+                          ) {
+                            return Promise.reject("Imagem no formato errado!");
+                          }
+                          return Promise.resolve();
+                        },
+                      },
+                    ]}
+                  >
+                    <Input
+                      placeholder="Ex: https://url.png"
+                      className="input"
+                    />
                   </Form.Item>
                 </InputWrap>
               </section>
@@ -96,7 +118,7 @@ export default function ProfileModal({
                 </InputWrap>
                 <InputWrap>
                   <Form.Item name="github" label="GitHub" initialValue={github}>
-                    <Input className="input" />
+                    <Input placeholder="Ex: usuario" className="input" />
                   </Form.Item>
                 </InputWrap>
               </section>
@@ -108,7 +130,7 @@ export default function ProfileModal({
                     label="Linkedin"
                     initialValue={linkedin}
                   >
-                    <Input className="input" />
+                    <Input placeholder="Ex: usuario-123" className="input" />
                   </Form.Item>
                 </InputWrap>
                 <InputWrap>
@@ -117,7 +139,7 @@ export default function ProfileModal({
                     label="Twitter"
                     initialValue={twitter}
                   >
-                    <Input className="input" />
+                    <Input placeholder="Ex: usuario" className="input" />
                   </Form.Item>
                 </InputWrap>
               </section>

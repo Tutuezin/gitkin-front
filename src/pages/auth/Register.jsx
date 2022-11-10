@@ -136,10 +136,15 @@ export default function Register() {
                   },
                   {
                     validator: (_, value) => {
-                      if (value.length > 25)
+                      if (value.length > 25) {
                         return Promise.reject(
                           "O máximo de caracteres foi atingido!"
                         );
+                      } else if (value.match(/[^a-zA-Z0-9\-\/]/)) {
+                        return Promise.reject(
+                          "Não são permitidos caracteres especiais!"
+                        );
+                      }
                       return Promise.resolve();
                     },
                   },
@@ -205,15 +210,14 @@ export default function Register() {
             <p>
               Ao se registrar, você aceita nossos{" "}
               <a
-                href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ%22%7D"}
+                href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ&autoplay=1"}
                 target={"_blank"}
-                rel={"noreferrer noopener"}
               >
                 termos de uso
               </a>{" "}
               e a nossa{" "}
               <a
-                href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ%22%7D"}
+                href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ&autoplay=1"}
                 target={"_blank"}
                 rel={"noreferrer noopener"}
               >
